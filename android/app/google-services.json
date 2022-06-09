@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "456163167847",
+    "project_id": "pgee-app",
+    "storage_bucket": "pgee-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456163167847:android:ae1898a101019e79868ec2",
+        "android_client_info": {
+          "package_name": "com.denoic.pgee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "456163167847-nna037c8o6rcso1debq83kf0hb27gefc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARZQNuxGdeMuRJ-6eqmNAKAzNiegQZP3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "456163167847-nna037c8o6rcso1debq83kf0hb27gefc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
