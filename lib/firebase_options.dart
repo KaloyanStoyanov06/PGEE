@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -49,16 +50,16 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyARZQNuxGdeMuRJ-6eqmNAKAzNiegQZP3o',
+  static FirebaseOptions android = FirebaseOptions(
+    apiKey: dotenv.env['ANDROID_API'] ?? "NOT FOUND",
     appId: '1:456163167847:android:ae1898a101019e79868ec2',
     messagingSenderId: '456163167847',
     projectId: 'pgee-app',
     storageBucket: 'pgee-app.appspot.com',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCWKF_Fb7B6imclwvb3Edc_d7kkphyMjeU',
+  static FirebaseOptions ios = FirebaseOptions(
+    apiKey: dotenv.env['IOS_API'] ?? "NOT FOUND",
     appId: '1:456163167847:ios:c96d60c35c66e11b868ec2',
     messagingSenderId: '456163167847',
     projectId: 'pgee-app',
