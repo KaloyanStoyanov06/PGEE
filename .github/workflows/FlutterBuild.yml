@@ -13,24 +13,29 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
+    name: Build APK
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v1
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: "1.17.5"
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Decoding android/key.properties
+        run: echo "${{ secrets.KEYPROP_PROD }}" | base64 --decode > android/key.properties
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      - name: Decoding android/neumodore_key.jks
+        run: echo "${{ secrets.KEYJKS_PROD }}" | base64 --decode > android/key.jks
+
+      - name: Pub Get Packages
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --split-per-abi --release
