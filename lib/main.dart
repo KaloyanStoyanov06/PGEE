@@ -17,7 +17,7 @@ CustomColors darkCustomColors = const CustomColors(danger: Color(0xFFEF9A9A));
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: "assets/.env");
+  await dotenv.load(fileName: ".env");
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
