@@ -17,12 +17,11 @@ jobs:
     name: Build APK
     runs-on: ubuntu-latest
     steps:
-      - name: "Create env file"
-        run: touch .env
-          echo ANDROID_API=${{ secrets.ANDROID_API }} >> .env
-          echo IOS_API=${{ secrets.IOS_API }} >> .env
-          cat .env
-          echo ls
+      - name: Create .env file
+        uses: ozaytsev86/create-env-file@v1
+        with:
+          ENV_ANDROID_API: ${{ secrets.ANDROID_API }}
+          ENV_IOS_API: ${{ secrets.IOS_API }}
 
       - uses: actions/checkout@v2
       - name: Setup Java
