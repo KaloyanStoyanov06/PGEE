@@ -17,6 +17,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     return AlertDialog(
       title: Text("Забравена парола"),
       content: TextField(
+        autofocus: true,
         decoration: InputDecoration(
           labelText: "Емайл",
         ),

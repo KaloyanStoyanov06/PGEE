@@ -17,12 +17,25 @@ class DrawerComponent extends StatelessWidget {
         borderRadius: BorderRadius.only(
             topRight: Radius.circular(40), bottomRight: Radius.circular(40)),
       ),
+      elevation: 20,
       child: Column(
         children: [
-          SizedBox(
-            height: 20,
+          const SizedBox(
+            height: 100,
+            child: DrawerHeader(
+              child: Text(
+                "ПГЕЕ",
+                style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
           ),
           ListTile(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             leading: Icon(Icons.today),
             title: Text("Днес"),
             onTap: () {
@@ -30,6 +43,8 @@ class DrawerComponent extends StatelessWidget {
             },
           ),
           ListTile(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             leading: Icon(Icons.calendar_view_day_rounded),
             title: Text("Утре"),
             onTap: () {
@@ -45,13 +60,39 @@ class DrawerComponent extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
+          ListTile(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            leading: Icon(Icons.note),
+            title: Text("Домашни"),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            leading: Icon(Icons.receipt_long),
+            title: Text("Тестове"),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
           FutureBuilder(
             future: FirebaseService.isAdmin(),
             builder: (context, snapshot) {
               var isAdmin = snapshot.data.toString().toLowerCase() == 'true';
+              Widget child = Container();
               if (isAdmin) {
-                return AdminFunctions();
+                child = AdminFunctions(
+                  key: ValueKey(1), // assign key
+                );
               }
+
+              return AnimatedSwitcher(
+                duration: Duration(seconds: 1),
+                child: child,
+              );
 
               return Container();
             },
@@ -65,11 +106,12 @@ class DrawerComponent extends StatelessWidget {
             leading: Icon(Icons.settings),
             title: Text("Настройки"),
             onTap: () {
-              FirebaseAuth.instance.signOut();
-              Navigator.pushReplacementNamed(context, '/sign-in');
+              Navigator.pop(context);
             },
           ),
           ListTile(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             leading: Icon(Icons.logout),
             title: Text("Излез"),
             onTap: () {

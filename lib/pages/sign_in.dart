@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pgee/pages/forgot_password.dart';
+import 'package:pgee/services/firebase_service.dart';
 
 class SignInPage extends StatefulWidget {
   SignInPage({Key? key}) : super(key: key);
@@ -102,7 +103,9 @@ class _SignInPageState extends State<SignInPage> {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => Center(child: CircularProgressIndicator()));
+        builder: (context) => Center(
+              child: CircularProgressIndicator(),
+            ));
 
     print("sign");
     try {
@@ -130,6 +133,7 @@ class _SignInPageState extends State<SignInPage> {
       rethrow;
     }
 
+    bool UserAdmin = await FirebaseService.isAdmin();
     print("signIn: ${FirebaseAuth.instance.currentUser?.email}");
     Navigator.pushReplacementNamed(context, "/home");
   }

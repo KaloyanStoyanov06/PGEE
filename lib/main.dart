@@ -25,16 +25,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    var brightness =
-        SchedulerBinding.instance.window.platformBrightness == Brightness.dark
-            ? Brightness.light
-            : Brightness.dark;
-
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       systemStatusBarContrastEnforced: false,
       systemNavigationBarContrastEnforced: false,
-      statusBarIconBrightness: brightness,
       statusBarColor: Colors.transparent,
       systemNavigationBarColor: Colors.transparent,
       systemNavigationBarDividerColor: Colors.transparent,
@@ -42,10 +36,10 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: '',
       theme: Themes.lightTheme,
       darkTheme: Themes.darkTheme,
-      home: SwitchPage(),
+      home: AuthRedirect(),
       routes: {
         '/home': (context) => HomePage(),
         '/sign-in': (context) => SignInPage(),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class Themes {
   static ThemeData lightTheme = ThemeData(
@@ -11,6 +10,11 @@ class Themes {
         borderSide: BorderSide(color: Colors.deepPurple),
         borderRadius: BorderRadius.circular(20),
       ),
+    ),
+    listTileTheme: ListTileThemeData(
+      contentPadding: EdgeInsets.all(20),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      style: ListTileStyle.drawer,
     ),
   );
 
