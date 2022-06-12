@@ -8,6 +8,10 @@ on:
 
   workflow_dispatch:
 
+env:
+  ANDROID_API: ${{ secrets.ANDROID_API }}
+  IOS_API: ${{ secrets.IOS_API }}
+
 jobs:
   build:
     name: Build APK
