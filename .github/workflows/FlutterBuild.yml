@@ -17,14 +17,11 @@ jobs:
     name: Build APK
     runs-on: ubuntu-latest
     steps:
-      - name: Make envfile
-        uses: SpicyPizza/create-envfile@v1.3
-        with:
-          envkey_ANDROID_API: ${{ secrets.ANDROID_API }}
-          envkey_IOS_API: ${{ secrets.IOS_API }}
-          directory: ./
-          file_name: .env
-          fail_on_empty: false
+      - name: "Create env file"
+        run: touch .env
+          echo ANDROID_API=${{ secrets.ANDROID_API }} >> .env
+          echo IOS_API=${{ secrets.IOS_API }} >> .env
+          cat .env
 
       - uses: actions/checkout@v2
       - name: Setup Java
