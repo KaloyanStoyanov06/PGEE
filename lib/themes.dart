@@ -25,5 +25,10 @@ class Themes {
         borderRadius: BorderRadius.circular(20),
       ),
     ),
+    listTileTheme: ListTileThemeData(
+      contentPadding: EdgeInsets.all(20),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      style: ListTileStyle.drawer,
+    ),
   );
 }

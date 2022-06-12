@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pgee/firebase_options.dart';
 import 'package:pgee/pages/home.dart';
 import 'package:pgee/pages/sign_in.dart';
+import 'package:pgee/pages/sign_up.dart';
 import 'package:pgee/pages/switch.dart';
 import 'package:pgee/themes.dart';
 
@@ -24,9 +25,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    //TODO: Check if the user is signed in or not. If he is not signed in, then redirect him to the login page.
-    bool isSigned = false;
-
     var brightness =
         SchedulerBinding.instance.window.platformBrightness == Brightness.dark
             ? Brightness.light
@@ -51,6 +49,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => HomePage(),
         '/sign-in': (context) => SignInPage(),
+        '/sign-up': (context) => SignUpPage()
       },
     );
   }
