@@ -60,6 +60,7 @@ class FirebaseService {
     Navigator.pushReplacementNamed(context, "/home");
   }
 
+  //TODO: IF he is a student add a class too
   static Future signUp(
       BuildContext context, String email, String name, String role) async {
     showDialog(
