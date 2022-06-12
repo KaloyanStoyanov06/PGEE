@@ -22,6 +22,7 @@ jobs:
           echo ANDROID_API=${{ secrets.ANDROID_API }} >> .env
           echo IOS_API=${{ secrets.IOS_API }} >> .env
           cat .env
+          ls
 
       - uses: actions/checkout@v2
       - name: Setup Java
