@@ -1,9 +1,14 @@
+import 'dart:ffi';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pgee/components/admin_functions.dart';
+import 'package:pgee/services/firebase_service.dart';
 
 class DrawerComponent extends StatelessWidget {
-  const DrawerComponent({Key? key}) : super(key: key);
+  DrawerComponent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,13 +17,24 @@ class DrawerComponent extends StatelessWidget {
         borderRadius: BorderRadius.only(
             topRight: Radius.circular(40), bottomRight: Radius.circular(40)),
       ),
-      child: ListView(
+      elevation: 20,
+      child: Column(
         children: [
-          DrawerHeader(
-            child: Text("ПГЕЕ"),
-            duration: Duration(milliseconds: 300),
+          const SizedBox(
+            height: 100,
+            child: DrawerHeader(
+              child: Text(
+                "ПГЕЕ",
+                style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ),
           ListTile(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             leading: Icon(Icons.today),
             title: Text("Днес"),
             onTap: () {
@@ -26,6 +42,8 @@ class DrawerComponent extends StatelessWidget {
             },
           ),
           ListTile(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             leading: Icon(Icons.calendar_view_day_rounded),
             title: Text("Утре"),
             onTap: () {
@@ -33,6 +51,8 @@ class DrawerComponent extends StatelessWidget {
             },
           ),
           ListTile(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             leading: Icon(Icons.calendar_view_week_rounded),
             title: Text("Седмица"),
             onTap: () {
@@ -40,13 +60,67 @@ class DrawerComponent extends StatelessWidget {
             },
           ),
           ListTile(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            leading: Icon(Icons.note),
+            title: Text("Домашни"),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            leading: Icon(Icons.receipt_long),
+            title: Text("Тестове"),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          FutureBuilder(
+            future: FirebaseService.isAdmin(),
+            builder: (context, snapshot) {
+              var isAdmin = snapshot.data.toString().toLowerCase() == 'true';
+              Widget child = Container();
+              if (isAdmin) {
+                child = AdminFunctions(
+                  key: ValueKey(1), // assign key
+                );
+              }
+
+              return AnimatedSwitcher(
+                duration: Duration(seconds: 1),
+                child: child,
+              );
+
+              return Container();
+            },
+          ),
+          Expanded(
+            child: Container(),
+          ),
+          ListTile(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            leading: Icon(Icons.settings),
+            title: Text("Настройки"),
+            onTap: () {
+              Navigator.pushNamed(context, '/settings');
+            },
+          ),
+          ListTile(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             leading: Icon(Icons.logout),
             title: Text("Излез"),
             onTap: () {
               FirebaseAuth.instance.signOut();
               Navigator.pushReplacementNamed(context, '/sign-in');
             },
-          )
+          ),
+          SizedBox(
+            height: 20,
+          ),
         ],
       ),
     );

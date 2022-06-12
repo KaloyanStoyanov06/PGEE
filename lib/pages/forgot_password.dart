@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pgee/services/firebase_service.dart';
 
 class ForgotPassword extends StatefulWidget {
   ForgotPassword({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     return AlertDialog(
       title: Text("Забравена парола"),
       content: TextField(
+        autofocus: true,
         decoration: InputDecoration(
           labelText: "Емайл",
         ),
@@ -25,37 +27,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       ),
       actions: [
         ElevatedButton(
-          onPressed: () => PasswordChange(),
+          onPressed: () {
+            FirebaseService.ChangePassword(context, email.text);
+          },
           child: Text("Изпрати"),
         ),
         ElevatedButton(
             onPressed: () => Navigator.pop(context), child: Text("Откажи")),
       ],
     );
-  }
-
-  Future PasswordChange() async {
-    try {
-      await FirebaseAuth.instance
-          .sendPasswordResetEmail(email: email.text.trim());
-    } catch (e) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text("Грешка"),
-          content: Text(e.toString()),
-          actions: [
-            ElevatedButton(
-              child: Text("ОК"),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            )
-          ],
-        ),
-      );
-      rethrow;
-    }
-    print("send an email");
   }
 }

@@ -29,6 +29,13 @@
             {
               "client_id": "456163167847-nna037c8o6rcso1debq83kf0hb27gefc.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "456163167847-agl185n5giphqju0o7bu3j3qede5h1kl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.denoic.pgee"
+              }
             }
           ]
         }

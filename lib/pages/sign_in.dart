@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pgee/pages/forgot_password.dart';
+import 'package:pgee/services/firebase_service.dart';
 
 class SignInPage extends StatefulWidget {
   SignInPage({Key? key}) : super(key: key);
@@ -38,7 +39,6 @@ class _SignInPageState extends State<SignInPage> {
             const SizedBox(height: 20),
             TextField(
               keyboardType: TextInputType.emailAddress,
-              // textAlign: TextAlign.center,
               decoration: InputDecoration(
                 labelText: "Емайл",
               ),
@@ -54,7 +54,6 @@ class _SignInPageState extends State<SignInPage> {
               keyboardType: TextInputType.visiblePassword,
               decoration: InputDecoration(
                 labelText: "Парола",
-                // border: const OutlineInputBorder(),
                 suffixIcon: IconButton(
                   icon: Icon(
                     VisiblePassword ? Icons.visibility : Icons.visibility_off,
@@ -79,7 +78,7 @@ class _SignInPageState extends State<SignInPage> {
                 child: Text("Влез"),
               ),
               onPressed: () {
-                signIn();
+                FirebaseService.signIn(context, email.text, password.text);
               },
             ),
             TextButton(
@@ -96,41 +95,5 @@ class _SignInPageState extends State<SignInPage> {
         ),
       )),
     );
-  }
-
-  Future signIn() async {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => Center(child: CircularProgressIndicator()));
-
-    print("sign");
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email.text.trim(),
-        password: password.text.trim(),
-      );
-    } catch (e) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text("Грешка"),
-          content: Text(e.toString()),
-          actions: [
-            ElevatedButton(
-              child: Text("ОК"),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-            )
-          ],
-        ),
-      );
-      rethrow;
-    }
-
-    print("signIn: ${FirebaseAuth.instance.currentUser?.email}");
-    Navigator.pushReplacementNamed(context, "/home");
   }
 }
