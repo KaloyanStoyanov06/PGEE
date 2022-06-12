@@ -22,7 +22,7 @@ jobs:
         with:
           envkey_ANDROID_API: ${{ secrets.ANDROID_API }}
           envkey_IOS_API: ${{ secrets.IOS_API }}
-          directory: <directory_name>
+          directory: ./
           file_name: .env
           fail_on_empty: false
 
