@@ -19,7 +19,7 @@ class FirebaseService {
         context: context,
         barrierDismissible: false,
         builder: (context) => Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator.adaptive(),
             ));
 
     print("sign");
@@ -66,15 +66,10 @@ class FirebaseService {
         context: context,
         barrierDismissible: false,
         builder: (context) => Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator.adaptive(),
             ));
 
     UserCredential user;
-    for (int i = 0; i <= 10; i++) {
-      print(email);
-      print(name);
-      print(role);
-    }
 
     try {
       user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -119,7 +114,7 @@ class FirebaseService {
         context: context,
         barrierDismissible: false,
         builder: (context) => Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator.adaptive(),
             ));
 
     try {
