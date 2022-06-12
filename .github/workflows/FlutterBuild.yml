@@ -46,6 +46,13 @@ jobs:
       - name: Pub Get Packages
         run: flutter pub get
 
+      - name: "Create env file"
+        run: |
+          touch .env
+          echo ANDROID_API=${{ secrets.ANDROID_API }} >> .env
+          echo IOS_API=${{ secrets.IOS_API }} >> .env
+          cat .env
+
       - name: "Show files"
         run: |
           ls -la
