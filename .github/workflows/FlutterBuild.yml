@@ -16,11 +16,16 @@ jobs:
   create:
     runs-on: ubuntu-latest
     steps:
-      - name: Create .env file
-        uses: ozaytsev86/create-env-file@v1
-        with:
-          ENV_ANDROID_API: ${{ secrets.ANDROID_API }}
-          ENV_IOS_API: ${{ secrets.IOS_API }}
+      - name: "Create env file"
+        run: |
+          touch .env
+          echo API_ENDPOINT=${{ secrets.ANDROID_API }} >> .env
+          echo API_KEY=${{ secrets.IOS_API }} >> .env
+          cat .env
+
+      - name: "Show files"
+        run: |
+          ls -la
 
   build_android:
     name: Build APK
