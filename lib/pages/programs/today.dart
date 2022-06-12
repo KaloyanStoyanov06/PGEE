@@ -58,7 +58,16 @@ class _TodayPageState extends State<TodayPage> {
         automaticallyImplyLeading: false,
       ),
       body: Center(
-        child: Text(FirebaseAuth.instance.currentUser?.email ?? ""),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(FirebaseAuth.instance.currentUser?.email ?? ""),
+            ElevatedButton(
+                onPressed: (() => ScaffoldMessenger.of(context)
+                    .showSnackBar(const SnackBar(content: Text("Влязохте")))),
+                child: const Text("Hello"))
+          ],
+        ),
       ),
     );
   }

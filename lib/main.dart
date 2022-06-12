@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pgee/firebase_options.dart';
 import 'package:pgee/pages/home.dart';
+import 'package:pgee/pages/settings.dart';
 import 'package:pgee/pages/sign_in.dart';
 import 'package:pgee/pages/sign_up.dart';
 import 'package:pgee/pages/switch.dart';
@@ -36,14 +37,15 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: '',
+      title: 'PGEE',
       theme: Themes.lightTheme,
       darkTheme: Themes.darkTheme,
       home: AuthRedirect(),
       routes: {
         '/home': (context) => HomePage(),
         '/sign-in': (context) => SignInPage(),
-        '/sign-up': (context) => SignUpPage()
+        '/sign-up': (context) => SignUpPage(),
+        '/settings': (context) => SettingsPage(),
       },
     );
   }

@@ -106,7 +106,7 @@ class DrawerComponent extends StatelessWidget {
             leading: Icon(Icons.settings),
             title: Text("Настройки"),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pushNamed(context, '/settings');
             },
           ),
           ListTile(
