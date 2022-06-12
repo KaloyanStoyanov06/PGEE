@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pgee/services/firebase_service.dart';
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key? key}) : super(key: key);
@@ -11,6 +12,9 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   var selectedRole = "";
   var RoleText = "Моля изберете роля";
+
+  TextEditingController email = TextEditingController();
+  TextEditingController fullName = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +36,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 decoration: InputDecoration(
                   labelText: "Емайл",
                 ),
+                controller: email,
+                keyboardType: TextInputType.emailAddress,
               ),
               SizedBox(height: 20),
               TextField(
@@ -39,6 +45,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 decoration: InputDecoration(
                   labelText: "Име",
                 ),
+                controller: fullName,
               ),
               SizedBox(height: 20),
               Row(
@@ -90,14 +97,17 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: Container(),
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  FirebaseService.signUp(
+                      context, email.text, fullName.text, selectedRole);
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Text("Регистрация",
                       style: Theme.of(context).textTheme.button),
                 ),
               ),
-              SizedBox(height: 100),
+              SizedBox(height: 80),
             ],
           ),
         ),
