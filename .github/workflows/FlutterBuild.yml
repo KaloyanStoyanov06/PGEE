@@ -23,6 +23,13 @@ jobs:
           ENV_ANDROID_API: ${{ secrets.ANDROID_API }}
           ENV_IOS_API: ${{ secrets.IOS_API }}
 
+      - name: Fetch action
+        id: pl
+        uses: Rishabh510/Path-lister-action@master
+        with:
+          path: "./"
+          type: ".*"
+
       - uses: actions/checkout@v2
       - name: Setup Java
         uses: actions/setup-java@v1
