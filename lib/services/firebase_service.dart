@@ -24,7 +24,6 @@ class FirebaseService {
               child: CircularProgressIndicator.adaptive(),
             ));
 
-    print("sign");
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email.trim(),
@@ -61,7 +60,6 @@ class FirebaseService {
     Navigator.pushReplacementNamed(context, "/home");
   }
 
-  //TODO: IF he is a student add a class too
   static Future signUp(BuildContext context, String email, String name,
       String role, String classNumber) async {
     showDialog(
@@ -71,18 +69,14 @@ class FirebaseService {
               child: CircularProgressIndicator.adaptive(),
             ));
 
-    print("Initializing Firebase app 2");
-    FirebaseApp newApp = await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
-    print("Initiliazed Firebase app 2");
+    FirebaseApp tempApp = await Firebase.initializeApp(
+        name: "TempoaryApp", options: DefaultFirebaseOptions.currentPlatform);
     UserCredential user;
 
     try {
-      print("Registering the user");
-      user = await FirebaseAuth.instanceFor(app: newApp)
+      user = await FirebaseAuth.instanceFor(app: tempApp)
           .createUserWithEmailAndPassword(
               email: email.trim(), password: "12345678");
-      print("REGISTERED the user");
     } catch (e) {
       showDialog(
         context: context,
@@ -105,10 +99,7 @@ class FirebaseService {
 
     var store = FirebaseFirestore.instance.collection("users");
     var doc = store.doc(user.user!.uid);
-    print("SETTING THE DOCUMENTSSSSSS");
     if (role == "admin") {
-      print("SETTING THE DOCUMENT for admin");
-
       doc.set({
         "email": email.trim(),
         "firstName": name.trim().split(' ').first,
@@ -116,8 +107,6 @@ class FirebaseService {
         "role": role.trim(),
       });
     } else {
-      print("SETTING THE DOCUMENT");
-
       doc.set({
         "email": email.trim(),
         "firstName": name.trim().split(' ').first,
@@ -126,9 +115,7 @@ class FirebaseService {
         "class": classNumber.trim(),
       });
     }
-    print("Deleting the app");
-    newApp.delete();
-    print("Deleted!");
+    tempApp.delete();
 
     ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Регистриран е нов потребител")));

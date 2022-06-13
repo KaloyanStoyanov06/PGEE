@@ -48,10 +48,6 @@ class MyApp extends StatelessWidget {
           // On Android S+ devices, use the provided dynamic color scheme.
           // (Recommended) Harmonize the dynamic color scheme' built-in semantic colors.
           lightColorScheme = lightDynamic.harmonized();
-          // (Optional) Customize the scheme as desired. For example, one might
-          // want to use a brand color to override the dynamic [ColorScheme.secondary].
-          lightColorScheme =
-              lightColorScheme.copyWith(secondary: Colors.deepPurple);
           // (Optional) If applicable, harmonize custom colors.
           lightCustomColors = lightCustomColors.harmonized(lightColorScheme);
 
