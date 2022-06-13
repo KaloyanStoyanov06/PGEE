@@ -5,6 +5,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pgee/firebase_options.dart';
+import 'package:pgee/pages/admin/user_details.dart';
+import 'package:pgee/pages/admin/users.dart';
 import 'package:pgee/pages/home.dart';
 import 'package:pgee/pages/settings.dart';
 import 'package:pgee/pages/sign_in.dart';
@@ -84,6 +86,7 @@ class MyApp extends StatelessWidget {
             '/sign-in': (context) => SignInPage(),
             '/sign-up': (context) => SignUpPage(),
             '/settings': (context) => SettingsPage(),
+            '/mod-users': (context) => ModUsersPage(),
           },
         );
       },

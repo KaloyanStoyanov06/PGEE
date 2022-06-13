@@ -155,4 +155,50 @@ class FirebaseService {
     Navigator.pop(context);
     Navigator.pop(context);
   }
+
+  static Future UpdateUser(
+    BuildContext context,
+    String email,
+    String name,
+    String role,
+    String classNumber,
+    String uid,
+  ) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+              child: CircularProgressIndicator.adaptive(),
+            ));
+
+    if (email == null && name == null && role == null && classNumber == null) {
+      Navigator.pop(context);
+      return;
+    }
+
+    var store = FirebaseFirestore.instance.collection("users").doc(uid);
+
+    if (email == null) {
+      email = await store.get().then((value) => value['email']);
+    }
+    if (name == null) {
+      name = await store.get().then((value) => value['firstName']);
+    }
+    if (role == null) {
+      role = await store.get().then((value) => value['role']);
+    }
+    if (classNumber == null) {
+      classNumber = await store.get().then((value) => value['class']);
+    }
+
+    store.update({
+      "email": email.trim(),
+      "firstName": name.trim().split(' ').first,
+      "lastName": name.trim().split(' ').last,
+      "role": role.trim(),
+      "class": classNumber.trim(),
+    });
+
+    Navigator.pop(context);
+  }
 }
