@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pgee/services/firebase_service.dart';
 
 class SignUpPage extends StatefulWidget {
-  SignUpPage({Key? key}) : super(key: key);
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
@@ -95,14 +94,14 @@ class _SignUpPageState extends State<SignUpPage> {
                 ],
               ),
               // If Student is selected, show the following fields
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Visibility(
                 visible: selectedRole == "student" || selectedRole == "teacher",
                 child: Column(
                   children: [
                     TextField(
                       autofocus: false,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: "Клас",
                       ),
                       controller: classNumber,
@@ -110,11 +109,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  FirebaseService.signUp(
-                      context, email.text, fullName.text, selectedRole);
+                  FirebaseService.signUp(context, email.text, fullName.text,
+                      selectedRole, classNumber.text);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),

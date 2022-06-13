@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:pgee/firebase_options.dart';
 
 class FirebaseService {
   static Future<bool> isAdmin() {
@@ -18,7 +20,7 @@ class FirebaseService {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => Center(
+        builder: (context) => const Center(
               child: CircularProgressIndicator.adaptive(),
             ));
 
@@ -32,11 +34,11 @@ class FirebaseService {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text("Грешка"),
+          title: const Text("Грешка"),
           content: Text(e.toString()),
           actions: [
             ElevatedButton(
-              child: Text("ОК"),
+              child: const Text("ОК"),
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.pop(context);
@@ -56,34 +58,37 @@ class FirebaseService {
           content: Text("Препоръчително е да си смените паролата.")));
     }
 
-    print("signIn: ${FirebaseAuth.instance.currentUser?.email}");
     Navigator.pushReplacementNamed(context, "/home");
   }
 
   //TODO: IF he is a student add a class too
-  static Future signUp(
-      BuildContext context, String email, String name, String role) async {
+  static Future signUp(BuildContext context, String email, String name,
+      String role, String classNumber) async {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => Center(
+        builder: (context) => const Center(
               child: CircularProgressIndicator.adaptive(),
             ));
+
+    FirebaseApp newApp = await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
 
     UserCredential user;
 
     try {
-      user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: email.trim(), password: "12345678");
+      user = await FirebaseAuth.instanceFor(app: newApp)
+          .createUserWithEmailAndPassword(
+              email: email.trim(), password: "12345678");
     } catch (e) {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text("Грешка"),
+          title: const Text("Грешка"),
           content: Text(e.toString()),
           actions: [
             ElevatedButton(
-              child: Text("ОК"),
+              child: const Text("ОК"),
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.pop(context);
@@ -103,10 +108,14 @@ class FirebaseService {
       "firstName": name.trim().split(' ').first,
       "lastName": name.trim().split(' ').last,
       "role": role.trim(),
+      "class": classNumber.trim(),
     });
 
+    await newApp.delete();
+
     ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Регистриран е потребител")));
+        const SnackBar(content: Text("Регистриран е нов потребител")));
+
     Navigator.pop(context);
   }
 
@@ -114,7 +123,7 @@ class FirebaseService {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => Center(
+        builder: (context) => const Center(
               child: CircularProgressIndicator.adaptive(),
             ));
 
@@ -124,11 +133,11 @@ class FirebaseService {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text("Грешка"),
+          title: const Text("Грешка"),
           content: Text(e.toString()),
           actions: [
             ElevatedButton(
-              child: Text("ОК"),
+              child: const Text("ОК"),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -138,7 +147,7 @@ class FirebaseService {
       );
       rethrow;
     }
-    print("send an email");
+
     Navigator.pop(context);
     Navigator.pop(context);
   }
