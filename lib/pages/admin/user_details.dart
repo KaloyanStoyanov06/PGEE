@@ -19,21 +19,21 @@ class _UserDetailsState extends State<UserDetails> {
     return doc.get().then((value) => value);
   }
 
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController classController = TextEditingController();
+  String selectedRole = "";
+  String roleText = "";
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<DocumentSnapshot>(
       future: getData(),
       builder: (context, snapshot) {
-        TextEditingController nameController = TextEditingController();
-        TextEditingController emailController = TextEditingController();
-        TextEditingController classController = TextEditingController();
-        String selectedRole = "";
-        String roleText = "";
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (snapshot.connectionState == ConnectionState.none) {
+        if (snapshot.connectionState == ConnectionState.done) {
           nameController = TextEditingController(
               text:
                   "${snapshot.data!['firstName']} ${snapshot.data!['lastName']}");
@@ -41,20 +41,20 @@ class _UserDetailsState extends State<UserDetails> {
               TextEditingController(text: snapshot.data!['email']);
           classController =
               TextEditingController(text: snapshot.data!['class']);
-          selectedRole = snapshot.data!['role'];
+          selectedRole = snapshot.data!['role'].toString();
           roleText = "";
-        }
 
-        switch (selectedRole) {
-          case 'admin':
-            roleText = 'Админ';
-            break;
-          case 'teacher':
-            roleText = 'Учител';
-            break;
-          case 'student':
-            roleText = 'Ученик';
-            break;
+          switch (selectedRole) {
+            case 'admin':
+              roleText = 'Админ';
+              break;
+            case 'teacher':
+              roleText = 'Учител';
+              break;
+            case 'student':
+              roleText = 'Ученик';
+              break;
+          }
         }
 
         return Scaffold(
