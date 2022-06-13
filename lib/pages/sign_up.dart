@@ -11,10 +11,11 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   var selectedRole = "";
-  var RoleText = "Моля изберете роля";
+  var roleText = "Моля изберете роля";
 
   TextEditingController email = TextEditingController();
   TextEditingController fullName = TextEditingController();
+  TextEditingController classNumber = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,33 +27,33 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 20.0,
-            vertical: 10,
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TextField(
                 autofocus: false,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Емайл",
                 ),
                 controller: email,
                 keyboardType: TextInputType.emailAddress,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextField(
                 autofocus: false,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Име",
                 ),
                 controller: fullName,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    RoleText,
+                    roleText,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   PopupMenuButton(
@@ -63,29 +64,29 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     itemBuilder: (context) => [
                       PopupMenuItem(
-                        child: Text("Ученик"),
+                        child: const Text("Ученик"),
                         onTap: () {
                           setState(() {
                             selectedRole = "student";
-                            RoleText = "Ученик";
+                            roleText = "Ученик";
                           });
                         },
                       ),
                       PopupMenuItem(
-                        child: Text("Учител"),
+                        child: const Text("Учител"),
                         onTap: () {
                           setState(() {
                             selectedRole = "teacher";
-                            RoleText = "Учител";
+                            roleText = "Учител";
                           });
                         },
                       ),
                       PopupMenuItem(
-                        child: Text("Админ"),
+                        child: const Text("Админ"),
                         onTap: () {
                           setState(() {
                             selectedRole = "admin";
-                            RoleText = "Админ";
+                            roleText = "Админ";
                           });
                         },
                       )
@@ -93,9 +94,23 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ],
               ),
-              Expanded(
-                child: Container(),
+              // If Student is selected, show the following fields
+              SizedBox(height: 20),
+              Visibility(
+                visible: selectedRole == "student" || selectedRole == "teacher",
+                child: Column(
+                  children: [
+                    TextField(
+                      autofocus: false,
+                      decoration: InputDecoration(
+                        labelText: "Клас",
+                      ),
+                      controller: classNumber,
+                    ),
+                  ],
+                ),
               ),
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   FirebaseService.signUp(
@@ -107,7 +122,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       style: Theme.of(context).textTheme.button),
                 ),
               ),
-              SizedBox(height: 80),
             ],
           ),
         ),
