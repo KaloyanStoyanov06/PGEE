@@ -8,7 +8,7 @@ import 'package:pgee/firebase_options.dart';
 import 'package:pgee/pages/home.dart';
 import 'package:pgee/pages/settings.dart';
 import 'package:pgee/pages/sign_in.dart';
-import 'package:pgee/pages/sign_up.dart';
+import 'package:pgee/pages/admin/sign_up.dart';
 import 'package:pgee/pages/switch.dart';
 import 'package:pgee/themes.dart';
 

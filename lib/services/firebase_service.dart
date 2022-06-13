@@ -71,15 +71,18 @@ class FirebaseService {
               child: CircularProgressIndicator.adaptive(),
             ));
 
+    print("Initializing Firebase app 2");
     FirebaseApp newApp = await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
-
+    print("Initiliazed Firebase app 2");
     UserCredential user;
 
     try {
+      print("Registering the user");
       user = await FirebaseAuth.instanceFor(app: newApp)
           .createUserWithEmailAndPassword(
               email: email.trim(), password: "12345678");
+      print("REGISTERED the user");
     } catch (e) {
       showDialog(
         context: context,
@@ -102,16 +105,30 @@ class FirebaseService {
 
     var store = FirebaseFirestore.instance.collection("users");
     var doc = store.doc(user.user!.uid);
+    print("SETTING THE DOCUMENTSSSSSS");
+    if (role == "admin") {
+      print("SETTING THE DOCUMENT for admin");
 
-    doc.set({
-      "email": email.trim(),
-      "firstName": name.trim().split(' ').first,
-      "lastName": name.trim().split(' ').last,
-      "role": role.trim(),
-      "class": classNumber.trim(),
-    });
+      doc.set({
+        "email": email.trim(),
+        "firstName": name.trim().split(' ').first,
+        "lastName": name.trim().split(' ').last,
+        "role": role.trim(),
+      });
+    } else {
+      print("SETTING THE DOCUMENT");
 
-    await newApp.delete();
+      doc.set({
+        "email": email.trim(),
+        "firstName": name.trim().split(' ').first,
+        "lastName": name.trim().split(' ').last,
+        "role": role.trim(),
+        "class": classNumber.trim(),
+      });
+    }
+    print("Deleting the app");
+    newApp.delete();
+    print("Deleted!");
 
     ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Регистриран е нов потребител")));
