@@ -14,7 +14,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
   TextEditingController email = TextEditingController();
   TextEditingController fullName = TextEditingController();
-  TextEditingController classNumber = TextEditingController();
+  TextEditingController className = TextEditingController();
+  TextEditingController numberInClassController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -125,16 +126,32 @@ class _SignUpPageState extends State<SignUpPage> {
                       decoration: const InputDecoration(
                         labelText: "Клас",
                       ),
-                      controller: classNumber,
+                      controller: className,
                     ),
+                    const SizedBox(height: 20),
+                    if (selectedRole == "student")
+                      TextField(
+                        autofocus: false,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          labelText: "Номер в класа",
+                        ),
+                        controller: numberInClassController,
+                      ),
                   ],
                 ),
               ),
-              const SizedBox(height: 10),
+              // To make some space
+              if (selectedRole == "student") const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  FirebaseService.signUp(context, email.text, fullName.text,
-                      selectedRole, classNumber.text);
+                  FirebaseService.signUp(
+                      context,
+                      email.text,
+                      fullName.text,
+                      selectedRole,
+                      className.text,
+                      numberInClassController.text);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),

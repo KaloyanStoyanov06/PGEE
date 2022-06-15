@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pgee/services/firebase_service.dart';
 
 class UserDetails extends StatefulWidget {
   UserDetails({Key? key, required this.uid}) : super(key: key);
@@ -22,17 +23,27 @@ class _UserDetailsState extends State<UserDetails> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController classController = TextEditingController();
+  TextEditingController numberInClassController = TextEditingController();
   String selectedRole = "";
   String roleText = "";
 
-  void ReadAndSetData() async {
+  @override
+  void initState() {
+    super.initState();
+    readAndSetData();
+    print(widget.uid);
+  }
+
+  void readAndSetData() async {
     DocumentSnapshot data = await getData();
-    nameController.text = data['firstName'];
+    nameController.text = data['name'];
     emailController.text = data['email'];
     classController.text = data['class'];
+    numberInClassController.text = data['numberInClass'].toString();
 
     setState(() {
       selectedRole = data['role'];
+
       if (selectedRole == "admin") {
         roleText = "Администратор";
       } else if (selectedRole == "teacher") {
@@ -43,14 +54,32 @@ class _UserDetailsState extends State<UserDetails> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => ReadAndSetData());
-  }
-
   Widget DeleteDialog() {
-    return AlertDialog();
+    return AlertDialog(
+      title: const Text("Сигурни ли сте?"),
+      content:
+          const Text("Сигурни ли сте, че искате да изтриете този потребител"),
+      actions: [
+        ElevatedButton(
+          child: const Text("Да"),
+          onPressed: () {
+            // FirebaseFirestore.instance
+            //     .collection('users')
+            //     .doc(widget.uid)
+            //     .delete();
+            Navigator.pop(context);
+            Navigator.pop(context);
+          },
+        ),
+        const SizedBox(width: 5),
+        ElevatedButton(
+          child: const Text("Не"),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ],
+    );
   }
 
   @override
@@ -173,12 +202,30 @@ class _UserDetailsState extends State<UserDetails> {
                         ),
                         controller: classController,
                       ),
+                      const SizedBox(height: 20),
+                      if (selectedRole == "student")
+                        TextField(
+                          autofocus: false,
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            labelText: "Номер в класа",
+                          ),
+                          controller: numberInClassController,
+                        ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                // To make some space
+                if (selectedRole == "student") const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => FirebaseService.updateUser(
+                      context,
+                      emailController.text,
+                      nameController.text,
+                      selectedRole,
+                      classController.text,
+                      numberInClassController.text,
+                      widget.uid),
                   child: const Text("Запази промените"),
                 ),
               ],

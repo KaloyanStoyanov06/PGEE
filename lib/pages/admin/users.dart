@@ -48,10 +48,10 @@ class _ModUsersPageState extends State<ModUsersPage> {
                   ),
                 ),
                 child: UserListTile(
-                  firstName: document['firstName'],
-                  lastName: document['lastName'],
+                  name: document['name'],
                   email: document['email'],
-                  classNumber: document['class'],
+                  className: document['class'],
+                  numberInClass: document['numberInClass'],
                 ),
               );
             },

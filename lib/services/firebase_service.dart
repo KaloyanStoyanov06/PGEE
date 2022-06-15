@@ -61,7 +61,7 @@ class FirebaseService {
   }
 
   static Future signUp(BuildContext context, String email, String name,
-      String role, String classNumber) async {
+      String role, String className, String numberInClass) async {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -102,17 +102,16 @@ class FirebaseService {
     if (role == "admin") {
       doc.set({
         "email": email.trim(),
-        "firstName": name.trim().split(' ').first,
-        "lastName": name.trim().split(' ').last,
+        "name": name.trim(),
         "role": role.trim(),
       });
     } else {
       doc.set({
         "email": email.trim(),
-        "firstName": name.trim().split(' ').first,
-        "lastName": name.trim().split(' ').last,
+        "name": name.trim(),
         "role": role.trim(),
-        "class": classNumber.trim(),
+        "class": className.trim(),
+        "numberInClass": int.parse(numberInClass.trim())
       });
     }
     tempApp.delete();
@@ -123,7 +122,7 @@ class FirebaseService {
     Navigator.pop(context);
   }
 
-  static Future ChangePassword(BuildContext context, String email) async {
+  static Future changePassword(BuildContext context, String email) async {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -156,12 +155,13 @@ class FirebaseService {
     Navigator.pop(context);
   }
 
-  static Future UpdateUser(
+  static Future updateUser(
     BuildContext context,
     String email,
     String name,
     String role,
-    String classNumber,
+    String className,
+    String numberInClass,
     String uid,
   ) async {
     showDialog(
@@ -171,34 +171,32 @@ class FirebaseService {
               child: CircularProgressIndicator.adaptive(),
             ));
 
-    if (email == null && name == null && role == null && classNumber == null) {
+    if (email.isEmpty &&
+        name.isEmpty &&
+        role.isEmpty &&
+        className.isEmpty &&
+        numberInClass.isEmpty) {
       Navigator.pop(context);
       return;
     }
 
     var store = FirebaseFirestore.instance.collection("users").doc(uid);
 
-    if (email == null) {
-      email = await store.get().then((value) => value['email']);
-    }
-    if (name == null) {
-      name = await store.get().then((value) => value['firstName']);
-    }
-    if (role == null) {
-      role = await store.get().then((value) => value['role']);
-    }
-    if (classNumber == null) {
-      classNumber = await store.get().then((value) => value['class']);
-    }
-
     store.update({
       "email": email.trim(),
-      "firstName": name.trim().split(' ').first,
-      "lastName": name.trim().split(' ').last,
+      'name': name.trim(),
       "role": role.trim(),
-      "class": classNumber.trim(),
+      "class": className.trim(),
+      "numberInClass": int.parse(numberInClass.trim()),
     });
 
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text("Успешно редактиран профил"),
+      duration: Duration(seconds: 5),
+      elevation: 20,
+    ));
+
+    Navigator.pop(context);
     Navigator.pop(context);
   }
 }
