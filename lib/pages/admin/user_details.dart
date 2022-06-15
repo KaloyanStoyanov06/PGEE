@@ -26,6 +26,7 @@ class _UserDetailsState extends State<UserDetails> {
   TextEditingController numberInClassController = TextEditingController();
   String selectedRole = "";
   String roleText = "";
+  String password = "";
 
   @override
   void initState() {
@@ -63,10 +64,7 @@ class _UserDetailsState extends State<UserDetails> {
         ElevatedButton(
           child: const Text("Да"),
           onPressed: () {
-            // FirebaseFirestore.instance
-            //     .collection('users')
-            //     .doc(widget.uid)
-            //     .delete();
+            FirebaseService.deleteUser(context, widget.uid);
             Navigator.pop(context);
             Navigator.pop(context);
           },

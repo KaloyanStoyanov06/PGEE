@@ -199,4 +199,25 @@ class FirebaseService {
     Navigator.pop(context);
     Navigator.pop(context);
   }
+
+  static Future deleteUser(BuildContext context, String uid) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+              child: CircularProgressIndicator.adaptive(),
+            ));
+
+    var store = FirebaseFirestore.instance.collection("users").doc(uid);
+    store.delete();
+
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text("Успешно изтрит профил"),
+      duration: Duration(seconds: 5),
+      elevation: 20,
+    ));
+
+    Navigator.pop(context);
+    Navigator.pop(context);
+  }
 }
