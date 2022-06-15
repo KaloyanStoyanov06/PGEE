@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pgee/components/user_list_tile.dart';
+import 'package:pgee/components/role/admin_tile.dart';
+import 'package:pgee/components/role/student_tile.dart';
+import 'package:pgee/components/role/teacher_tile.dart';
 import 'package:pgee/pages/admin/user_details.dart';
 
 class ModUsersPage extends StatefulWidget {
@@ -29,7 +31,10 @@ class _ModUsersPageState extends State<ModUsersPage> {
         ],
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('users').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .orderBy('role')
+            .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
@@ -40,20 +45,45 @@ class _ModUsersPageState extends State<ModUsersPage> {
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
               DocumentSnapshot document = snapshot.data!.docs[index];
-              return GestureDetector(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => UserDetails(uid: document.id),
-                  ),
-                ),
-                child: UserListTile(
+
+              Widget child;
+
+              if (document['role'] == 'student') {
+                child = StudentTile(
                   name: document['name'],
                   email: document['email'],
                   className: document['class'],
                   numberInClass: document['numberInClass'],
-                ),
-              );
+                );
+              } else if (document['role'] == 'teacher') {
+                child = TeacherTile(
+                  email: document['email'],
+                  name: document['name'],
+                  className: document['class'],
+                  teachItem: document['teachItem'],
+                );
+              } else if (document['role'] == 'admin') {
+                child = AdminTile(name: document['name']);
+              } else {
+                child = const Text("NOT RECOGNIZED");
+              }
+
+              return GestureDetector(
+                  onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UserDetails(uid: document.id),
+                        ),
+                      ),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: Colors.grey),
+                        top: BorderSide(color: Colors.grey),
+                      ),
+                    ),
+                    child: child,
+                  ));
             },
           );
         },

@@ -1,11 +1,9 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pgee/firebase_options.dart';
-import 'package:pgee/pages/admin/user_details.dart';
 import 'package:pgee/pages/admin/users.dart';
 import 'package:pgee/pages/home.dart';
 import 'package:pgee/pages/settings.dart';

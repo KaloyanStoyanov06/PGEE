@@ -105,6 +105,13 @@ class FirebaseService {
         "name": name.trim(),
         "role": role.trim(),
       });
+    } else if (role == "teacher") {
+      doc.set({
+        "email": email.trim(),
+        "name": name.trim(),
+        "role": role.trim(),
+        "class": className.trim(),
+      });
     } else {
       doc.set({
         "email": email.trim(),
@@ -217,7 +224,6 @@ class FirebaseService {
       elevation: 20,
     ));
 
-    Navigator.pop(context);
     Navigator.pop(context);
   }
 }
