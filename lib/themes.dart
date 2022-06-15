@@ -17,15 +17,10 @@ class Themes {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       style: ListTileStyle.drawer,
     ),
-    snackBarTheme: const SnackBarThemeData(
+    snackBarTheme: SnackBarThemeData(
       elevation: 20,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(15),
-          topRight: Radius.circular(15),
-        ),
-      ),
-      behavior: SnackBarBehavior.fixed,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      behavior: SnackBarBehavior.floating,
     ),
   );
 
@@ -45,15 +40,10 @@ class Themes {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       style: ListTileStyle.drawer,
     ),
-    snackBarTheme: const SnackBarThemeData(
-      elevation: 20,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(15),
-          topRight: Radius.circular(15),
-        ),
-      ),
-      behavior: SnackBarBehavior.fixed,
+    snackBarTheme: SnackBarThemeData(
+      // elevation: 20,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      behavior: SnackBarBehavior.floating,
     ),
   );
 }

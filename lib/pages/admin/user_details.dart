@@ -24,50 +24,62 @@ class _UserDetailsState extends State<UserDetails> {
   TextEditingController classController = TextEditingController();
   String selectedRole = "";
   String roleText = "";
+
+  void ReadAndSetData() async {
+    DocumentSnapshot data = await getData();
+    nameController.text = data['firstName'];
+    emailController.text = data['email'];
+    classController.text = data['class'];
+
+    setState(() {
+      selectedRole = data['role'];
+      if (selectedRole == "admin") {
+        roleText = "Администратор";
+      } else if (selectedRole == "teacher") {
+        roleText = "Учител";
+      } else if (selectedRole == "student") {
+        roleText = "Ученик";
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => ReadAndSetData());
+  }
+
+  Widget DeleteDialog() {
+    return AlertDialog();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<DocumentSnapshot>(
-      future: getData(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        if (snapshot.connectionState == ConnectionState.done) {
-          nameController = TextEditingController(
-              text:
-                  "${snapshot.data!['firstName']} ${snapshot.data!['lastName']}");
-          emailController =
-              TextEditingController(text: snapshot.data!['email']);
-          classController =
-              TextEditingController(text: snapshot.data!['class']);
-          selectedRole = snapshot.data!['role'].toString();
-          roleText = "";
-
-          switch (selectedRole) {
-            case 'admin':
-              roleText = 'Админ';
-              break;
-            case 'teacher':
-              roleText = 'Учител';
-              break;
-            case 'student':
-              roleText = 'Ученик';
-              break;
-          }
-        }
-
-        return Scaffold(
-          appBar: AppBar(
-            title: Text("Модифициране на\nпотребител"),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        title: const Text("Модифициране на\nпотребител"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.delete_forever),
+            onPressed: () {
+              showDialog(
+                  context: context, builder: (context) => DeleteDialog());
+            },
+          )
+        ],
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          child: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
             child: Column(
               children: [
+                const SizedBox(height: 20),
                 TextField(
                   controller: nameController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Име",
                   ),
                 ),
@@ -76,7 +88,7 @@ class _UserDetailsState extends State<UserDetails> {
                 ),
                 TextField(
                   controller: emailController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Емайл",
                   ),
                 ),
@@ -116,8 +128,7 @@ class _UserDetailsState extends State<UserDetails> {
                               });
 
                               // Lose focus to hide the keyboard
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
+                              FocusScope.of(context).requestFocus(FocusNode());
                             },
                           ),
                           PopupMenuItem(
@@ -129,8 +140,7 @@ class _UserDetailsState extends State<UserDetails> {
                               });
 
                               // Lose focus to hide the keyboard
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
+                              FocusScope.of(context).requestFocus(FocusNode());
                             },
                           ),
                           PopupMenuItem(
@@ -142,8 +152,7 @@ class _UserDetailsState extends State<UserDetails> {
                               });
 
                               // Lose focus to hide the keyboard
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
+                              FocusScope.of(context).requestFocus(FocusNode());
                             },
                           )
                         ],
@@ -151,11 +160,32 @@ class _UserDetailsState extends State<UserDetails> {
                     ],
                   ),
                 ),
+                const SizedBox(height: 20),
+                Visibility(
+                  visible:
+                      selectedRole == "student" || selectedRole == "teacher",
+                  child: Column(
+                    children: [
+                      TextField(
+                        autofocus: false,
+                        decoration: const InputDecoration(
+                          labelText: "Клас",
+                        ),
+                        controller: classController,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Text("Запази промените"),
+                ),
               ],
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

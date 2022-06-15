@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pgee/components/user_list_tile.dart';
 import 'package:pgee/pages/admin/user_details.dart';
@@ -15,10 +16,14 @@ class _ModUsersPageState extends State<ModUsersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Modify Users'),
+        title: const Text('Потребители'),
         actions: [
           IconButton(
             icon: Icon(Icons.search),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(Icons.filter_alt),
             onPressed: () {},
           )
         ],
