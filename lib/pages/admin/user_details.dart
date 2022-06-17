@@ -24,9 +24,12 @@ class _UserDetailsState extends State<UserDetails> {
   TextEditingController emailController = TextEditingController();
   TextEditingController classController = TextEditingController();
   TextEditingController numberInClassController = TextEditingController();
+  TextEditingController teachItemController = TextEditingController();
+
+  bool isAdmin = false;
+
   String selectedRole = "";
   String roleText = "";
-  String password = "";
 
   @override
   void initState() {
@@ -40,17 +43,19 @@ class _UserDetailsState extends State<UserDetails> {
     nameController.text = data['name'];
     emailController.text = data['email'];
     classController.text = data['class'];
-    numberInClassController.text = data['numberInClass'].toString();
 
     setState(() {
+      isAdmin = data['isAdmin'];
       selectedRole = data['role'];
 
       if (selectedRole == "admin") {
         roleText = "Администратор";
       } else if (selectedRole == "teacher") {
         roleText = "Учител";
+        teachItemController.text = data['teachItem'];
       } else if (selectedRole == "student") {
         roleText = "Ученик";
+        numberInClassController.text = data['numberInClass'].toString();
       }
     });
   }
@@ -98,9 +103,9 @@ class _UserDetailsState extends State<UserDetails> {
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Column(
               children: [
                 const SizedBox(height: 20),
@@ -114,6 +119,7 @@ class _UserDetailsState extends State<UserDetails> {
                   height: 20,
                 ),
                 TextField(
+                  keyboardType: TextInputType.emailAddress,
                   controller: emailController,
                   decoration: const InputDecoration(
                     labelText: "Емайл",
@@ -210,11 +216,36 @@ class _UserDetailsState extends State<UserDetails> {
                           ),
                           controller: numberInClassController,
                         ),
+                      if (selectedRole == "teacher")
+                        TextField(
+                          autofocus: false,
+                          decoration: const InputDecoration(
+                            labelText: "Предмет",
+                          ),
+                          controller: teachItemController,
+                        ),
                     ],
                   ),
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Checkbox(
+                        value: isAdmin,
+                        onChanged: (value) => setState(() {
+                              isAdmin = value!;
+                            })),
+                    Text(
+                      "Админ",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ],
+                ),
                 // To make some space
-                if (selectedRole == "student") const SizedBox(height: 20),
+                if (selectedRole == "student" || selectedRole == "teacher")
+                  const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () => FirebaseService.updateUser(
                       context,
@@ -223,6 +254,8 @@ class _UserDetailsState extends State<UserDetails> {
                       selectedRole,
                       classController.text,
                       numberInClassController.text,
+                      teachItemController.text,
+                      isAdmin,
                       widget.uid),
                   child: const Text("Запази промените"),
                 ),

@@ -36,55 +36,71 @@ class _ModUsersPageState extends State<ModUsersPage> {
             .orderBy('role')
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          return ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            itemCount: snapshot.data!.docs.length,
-            itemBuilder: (context, index) {
-              DocumentSnapshot document = snapshot.data!.docs[index];
+          return RefreshIndicator(
+            onRefresh: () {
+              Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) =>
+                      ModUsersPage(),
+                  transitionDuration: Duration.zero,
+                  // reverseTransitionDuration: Duration.zero,
+                ),
+              );
+              return Future.value();
+            },
+            child: ListView.builder(
+              // physics: const BouncingScrollPhysics(),
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                DocumentSnapshot document = snapshot.data!.docs[index];
 
-              Widget child;
+                Widget child;
 
-              if (document['role'] == 'student') {
-                child = StudentTile(
-                  name: document['name'],
-                  email: document['email'],
-                  className: document['class'],
-                  numberInClass: document['numberInClass'],
-                );
-              } else if (document['role'] == 'teacher') {
-                child = TeacherTile(
-                  email: document['email'],
-                  name: document['name'],
-                  className: document['class'],
-                  teachItem: document['teachItem'],
-                );
-              } else if (document['role'] == 'admin') {
-                child = AdminTile(name: document['name']);
-              } else {
-                child = const Text("NOT RECOGNIZED");
-              }
+                if (document['role'] == 'student') {
+                  child = StudentTile(
+                    name: document['name'],
+                    email: document['email'],
+                    className: document['class'],
+                    numberInClass: document['numberInClass'],
+                    isAdmin: document['isAdmin'],
+                  );
+                } else if (document['role'] == 'teacher') {
+                  child = TeacherTile(
+                    email: document['email'],
+                    name: document['name'],
+                    className: document['class'],
+                    teachItem: document['teachItem'],
+                    isAdmin: document['isAdmin'],
+                  );
+                } else if (document['role'] == 'admin') {
+                  child = AdminTile(name: document['name']);
+                } else {
+                  child = const Text("NOT RECOGNIZED");
+                }
 
-              return GestureDetector(
-                  onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => UserDetails(uid: document.id),
+                return GestureDetector(
+                    onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UserDetails(uid: document.id),
+                          ),
+                        ),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(color: Colors.grey),
+                          top: BorderSide(color: Colors.grey),
                         ),
                       ),
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(color: Colors.grey),
-                        top: BorderSide(color: Colors.grey),
-                      ),
-                    ),
-                    child: child,
-                  ));
-            },
+                      child: child,
+                    ));
+              },
+            ),
           );
         },
       ),

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 class TeacherTile extends StatefulWidget {
@@ -6,13 +8,15 @@ class TeacherTile extends StatefulWidget {
       required this.name,
       required this.email,
       required this.className,
-      required this.teachItem})
+      required this.teachItem,
+      required this.isAdmin})
       : super(key: key);
 
   final String name;
   final String className;
   final String email;
   final String teachItem;
+  final bool isAdmin;
 
   @override
   State<TeacherTile> createState() => _TeacherTileState();
@@ -24,9 +28,15 @@ class _TeacherTileState extends State<TeacherTile> {
   @override
   void initState() {
     subtitle = "Учител по ${widget.teachItem}";
-    if (true) {
+    if (widget.className.isNotEmpty) {
       setState(() {
         subtitle += "\nКласен ръководител на ${widget.className}";
+      });
+    }
+
+    if (widget.isAdmin) {
+      setState(() {
+        subtitle += "\nАдминистратор";
       });
     }
     super.initState();
