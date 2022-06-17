@@ -20,15 +20,12 @@ class DrawerComponent extends StatelessWidget {
       elevation: 20,
       child: Column(
         children: [
-          const SizedBox(
+          SizedBox(
             height: 100,
             child: DrawerHeader(
               child: Text(
                 "ПГЕЕ",
-                style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.headline2,
               ),
             ),
           ),

@@ -13,20 +13,25 @@ env:
   IOS_API: ${{ secrets.IOS_API }}
 
 jobs:
-  build:
-    name: Build APK
+  create:
     runs-on: ubuntu-latest
     steps:
-      - name: Make envfile
-        uses: SpicyPizza/create-envfile@v1.3
-        with:
-          envkey_DEBUG: false
-          ANDROID_API: ${{ secrets.ANDROID_API }}
-          IOS_API: ${{ secrets.IOS_API }}
-          directory: <directory_name>
-          file_name: .env
-          fail_on_empty: false
+      - name: "Create env file"
+        run: |
+          touch .env
+          echo API_ENDPOINT=${{ secrets.ANDROID_API }} >> .env
+          echo API_KEY=${{ secrets.IOS_API }} >> .env
+          cat .env
 
+      - name: "Show files"
+        run: |
+          ls -la
+
+  build_android:
+    name: Build APK
+    runs-on: ubuntu-latest
+    needs: [create]
+    steps:
       - uses: actions/checkout@v2
       - name: Setup Java
         uses: actions/setup-java@v1
@@ -40,6 +45,17 @@ jobs:
 
       - name: Pub Get Packages
         run: flutter pub get
+
+      - name: "Create env file"
+        run: |
+          touch .env
+          echo ANDROID_API=${{ secrets.ANDROID_API }} >> .env
+          echo IOS_API=${{ secrets.IOS_API }} >> .env
+          cat .env
+
+      - name: "Show files"
+        run: |
+          ls -la
 
       - name: Build APK
         run: flutter build apk --release

@@ -18,7 +18,7 @@ class AdminFunctions extends StatelessWidget {
           leading: Icon(Icons.edit_rounded),
           title: Text("Модифициране на потребител"),
           onTap: () {
-            Navigator.pop(context);
+            Navigator.pushNamed(context, '/mod-users');
           },
         ),
       ],

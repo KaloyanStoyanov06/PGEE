@@ -28,7 +28,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       actions: [
         ElevatedButton(
           onPressed: () {
-            FirebaseService.ChangePassword(context, email.text);
+            FirebaseService.changePassword(context, email.text);
           },
           child: Text("Изпрати"),
         ),

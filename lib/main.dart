@@ -1,14 +1,14 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pgee/firebase_options.dart';
+import 'package:pgee/pages/admin/users.dart';
 import 'package:pgee/pages/home.dart';
 import 'package:pgee/pages/settings.dart';
 import 'package:pgee/pages/sign_in.dart';
-import 'package:pgee/pages/sign_up.dart';
+import 'package:pgee/pages/admin/sign_up.dart';
 import 'package:pgee/pages/switch.dart';
 import 'package:pgee/themes.dart';
 
@@ -48,10 +48,6 @@ class MyApp extends StatelessWidget {
           // On Android S+ devices, use the provided dynamic color scheme.
           // (Recommended) Harmonize the dynamic color scheme' built-in semantic colors.
           lightColorScheme = lightDynamic.harmonized();
-          // (Optional) Customize the scheme as desired. For example, one might
-          // want to use a brand color to override the dynamic [ColorScheme.secondary].
-          lightColorScheme =
-              lightColorScheme.copyWith(secondary: Colors.deepPurple);
           // (Optional) If applicable, harmonize custom colors.
           lightCustomColors = lightCustomColors.harmonized(lightColorScheme);
 
@@ -88,6 +84,7 @@ class MyApp extends StatelessWidget {
             '/sign-in': (context) => SignInPage(),
             '/sign-up': (context) => SignUpPage(),
             '/settings': (context) => SettingsPage(),
+            '/mod-users': (context) => ModUsersPage(),
           },
         );
       },
