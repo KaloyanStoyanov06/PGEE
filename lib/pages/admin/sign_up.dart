@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pgee/services/firebase_service.dart';
+import 'package:pgee/services/firebase_auth_service.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -107,6 +107,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               setState(() {
                                 selectedRole = "admin";
                                 roleText = "Админ";
+                                isAdmin = true;
                               });
 
                               // Lose focus to hide the keyboard
@@ -172,7 +173,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ],
                 ),
                 ElevatedButton(
-                  onPressed: () => FirebaseService.signUp(
+                  onPressed: () => FirebaseAuthService.signUp(
                       context,
                       emailController.text,
                       nameController.text,

@@ -14,6 +14,12 @@ class ModUsersPage extends StatefulWidget {
 }
 
 class _ModUsersPageState extends State<ModUsersPage> {
+  var stream = FirebaseFirestore.instance
+      .collection('users')
+      .orderBy('role')
+      .orderBy('name')
+      .snapshots();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,43 +27,53 @@ class _ModUsersPageState extends State<ModUsersPage> {
         title: const Text('Потребители'),
         actions: [
           IconButton(
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
             onPressed: () {},
           ),
           IconButton(
-            icon: Icon(Icons.filter_alt),
+            icon: const Icon(Icons.filter_alt),
             onPressed: () {},
           )
         ],
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('users')
-            .orderBy('role')
-            .snapshots(),
+        stream: stream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator.adaptive());
+          }
+
+          if (snapshot.hasError) {
+            print(snapshot.error);
+            return Center(child: Text("Грешка\n" + snapshot.error.toString()));
           }
 
           return RefreshIndicator(
             onRefresh: () {
-              Navigator.pushReplacement(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (context, animation1, animation2) =>
-                      ModUsersPage(),
-                  transitionDuration: Duration.zero,
-                  // reverseTransitionDuration: Duration.zero,
-                ),
-              );
+              showDialog(
+                  context: context,
+                  builder: (context) => const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      ));
+
+              setState(() {
+                stream = const Stream.empty();
+                stream = FirebaseFirestore.instance
+                    .collection('users')
+                    .orderBy('role')
+                    .orderBy('name')
+                    .snapshots();
+              });
+              Navigator.pop(context);
               return Future.value();
             },
-            child: ListView.builder(
-              // physics: const BouncingScrollPhysics(),
+            child: ListView.separated(
+              physics: const BouncingScrollPhysics(),
+              separatorBuilder: (context, index) => const Divider(),
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
-                DocumentSnapshot document = snapshot.data!.docs[index];
+                DocumentSnapshot document =
+                    snapshot.data?.docs[index] as DocumentSnapshot<Object?>;
 
                 Widget child;
 
@@ -91,12 +107,11 @@ class _ModUsersPageState extends State<ModUsersPage> {
                           ),
                         ),
                     child: Container(
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(color: Colors.grey),
-                          top: BorderSide(color: Colors.grey),
-                        ),
-                      ),
+                      // decoration: const BoxDecoration(
+                      //   border: Border(
+                      //     bottom: BorderSide(color: Colors.grey),
+                      //   ),
+                      // ),
                       child: child,
                     ));
               },

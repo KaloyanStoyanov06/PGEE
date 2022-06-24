@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:pgee/firebase_options.dart';
 import 'package:pgee/pages/admin/users.dart';
 
-class FirebaseService {
+class FirebaseAuthService {
   static Future<bool> isAdmin() {
     return FirebaseFirestore.instance
         .collection("users")
@@ -136,29 +136,22 @@ class FirebaseService {
 
     var store = FirebaseFirestore.instance.collection("users");
     var doc = store.doc(user.user!.uid);
-    if (role == "admin") {
-      doc.set({
-        "email": email.trim(),
-        "name": name.trim(),
-        "role": role.trim(),
-      });
-    } else if (role == "teacher") {
-      doc.set({
-        "email": email.trim(),
-        "name": name.trim(),
-        "role": role.trim(),
-        "class": className.trim(),
-        "teachItem": teachItem.trim()
-      });
-    } else {
-      doc.set({
-        "email": email.trim(),
-        "name": name.trim(),
-        "role": role.trim(),
+    doc.set({
+      "isAdmin": isAdmin,
+      "email": email.trim(),
+      "name": name.trim(),
+      "role": role.trim(),
+    });
+
+    if (role == "teacher") {
+      doc.update({"class": className.trim(), "teachItem": teachItem.trim()});
+    } else if (role == "student") {
+      doc.update({
         "class": className.trim(),
         "numberInClass": int.parse(numberInClass.trim())
       });
     }
+
     tempApp.delete();
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -250,6 +243,7 @@ class FirebaseService {
       'name': name.trim(),
       "role": role.trim(),
       "class": className.trim(),
+      "isAdmin": isAdmin,
     });
 
     if (role == 'student') {
@@ -296,5 +290,11 @@ class FirebaseService {
     ));
 
     Navigator.pop(context);
+  }
+
+  static Future<String> getClass() {
+    var user = FirebaseAuth.instance.currentUser;
+    var doc = FirebaseFirestore.instance.collection("users").doc(user!.uid);
+    return doc.get().then((value) => value.data()!["class"]);
   }
 }
