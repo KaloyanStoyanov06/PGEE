@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pgee/components/drawer.dart';
+import 'package:pgee/components/school_card.dart';
 import 'package:pgee/services/firebase_program_service.dart';
 
 class TodayPage extends StatefulWidget {
@@ -69,12 +70,23 @@ class _TodayPageState extends State<TodayPage> {
           }
 
           var data = snapshot.data!;
+          //TODO: IMPLEMENT GETTEACHERS METHOD TO THE FULLEST
+          // DocumentSnapshot<Map<String, dynamic>?> teachers =
+          //     FirebaseProgramService.getTeachers().then(
+          //   (value) => value.data(),
+          // );
+          // print("teachers: $teachers");
 
           return ListView.separated(
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(data.get("${index + 1}")),
+              return SchoolCard(
+                subjectName: data.get((index + 1).toString()),
+                teacherName: "Професор",
+                startingTime: const TimeOfDay(
+                  hour: 7,
+                  minute: 45,
+                ),
               );
             },
             separatorBuilder: (context, index) => const Divider(),

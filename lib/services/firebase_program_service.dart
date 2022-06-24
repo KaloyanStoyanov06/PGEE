@@ -37,4 +37,16 @@ class FirebaseProgramService {
     print(programDoc.get().then((value) => value.get("1")));
     return programDoc.get();
   }
+
+  static Future<DocumentSnapshot<Map<String, dynamic>?>> getTeachers() async {
+    var className = await FirebaseAuthService.getClass();
+    var classDoc = await FirebaseFirestore.instance
+        .collection('classes')
+        .doc(className)
+        .get();
+
+    var teachers = await classDoc.get("teachers");
+
+    return teachers;
+  }
 }
