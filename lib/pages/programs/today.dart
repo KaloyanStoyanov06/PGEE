@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pgee/components/drawer.dart';
+import 'package:pgee/services/firebase_program_service.dart';
 
 class TodayPage extends StatefulWidget {
   TodayPage({Key? key}) : super(key: key);
@@ -11,8 +13,7 @@ class TodayPage extends StatefulWidget {
 }
 
 class _TodayPageState extends State<TodayPage> {
-  // TODO: CHANGE BACK TO DateTime.now().weekday;
-  var today = 4;
+  var today = DateTime.now().weekday;
 
   // Day of the week
   String dayOfWeek() {
@@ -41,7 +42,7 @@ class _TodayPageState extends State<TodayPage> {
     if (today == 6 || today == 7) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text("Днес"),
+          title: const Text("Днес е Почивен ден"),
           automaticallyImplyLeading: false,
         ),
         body: Center(
@@ -54,20 +55,32 @@ class _TodayPageState extends State<TodayPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Днес е " + dayOfWeek()),
+        title: Text("Днес е ${dayOfWeek()}"),
         automaticallyImplyLeading: false,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(FirebaseAuth.instance.currentUser?.email ?? ""),
-            ElevatedButton(
-                onPressed: (() => ScaffoldMessenger.of(context)
-                    .showSnackBar(const SnackBar(content: Text("Влязохте")))),
-                child: const Text("Hello"))
-          ],
-        ),
+      body: FutureBuilder(
+        future: FirebaseProgramService.getToday(1),
+        builder: ((context,
+            AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          var data = snapshot.data!;
+
+          return ListView.separated(
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(data.get("${index + 1}")),
+              );
+            },
+            separatorBuilder: (context, index) => const Divider(),
+            itemCount: data.data()!.length,
+          );
+        }),
       ),
     );
   }
