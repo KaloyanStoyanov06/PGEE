@@ -13,8 +13,8 @@ env:
   IOS_API: ${{ secrets.IOS_API }}
 
 jobs:
-  createENVAPK:
-    runs-on: ubuntu-latest
+  create:
+    runs-on: macos-latest
     steps:
       - name: "Create env file"
         run: |
@@ -28,9 +28,9 @@ jobs:
           ls -la
 
   build_android:
-    name: Build APK
-    runs-on: ubuntu-latest
-    needs: [createENVAPK]
+    name: Build
+    runs-on: macos-latest
+    needs: [create]
     steps:
       - uses: actions/checkout@v2
       - name: Setup Java
@@ -53,68 +53,22 @@ jobs:
           echo IOS_API=${{ secrets.IOS_API }} >> .env
           cat .env
 
-      - name: "Show files"
-        run: |
-          ls -la
-
       - name: Build APK
         run: flutter build apk --release
+
+      - name: Build IPA
+        run: |
+          flutter build ios --no-codesign --release
+          cd build/ios/iphoneos
+          mkdir Payload
+          cd Payload
+          ln -s ../Runner.app
+          cd ..
+          zip -r app.ipa Payload
 
       - name: Push to releases
         uses: ncipollo/release-action@v1
         with:
           artifacts: "build/app/outputs/apk/release/*"
-          tag: v0.0.${{github.run_number}}
-          token: ${{ secrets.TOKEN }}
-
-  createENVIPA:
-    runs-on: macos-latest
-    steps:
-      - name: "Create env file"
-        run: |
-          touch .env
-          echo API_ENDPOINT=${{ secrets.ANDROID_API }} >> .env
-          echo API_KEY=${{ secrets.IOS_API }} >> .env
-          cat .env
-
-      - name: "Show files"
-        run: |
-          ls -la
-
-  build_ios:
-    name: Build IOS APP
-    runs-on: macos-latest
-    needs: [createENVIPA]
-    steps:
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: "stable"
-
-      - name: "Show files"
-        run: |
-          ls -la
-
-      - name: Pub Get Packages
-        run: flutter pub get
-
-      - name: "Create env file"
-        run: |
-          touch .env
-          echo ANDROID_API=${{ secrets.ANDROID_API }} >> .env
-          echo IOS_API=${{ secrets.IOS_API }} >> .env
-          cat .env
-
-      - name: "Show files"
-        run: |
-          ls -la
-
-      - name: Build IOS APP
-        run: flutter build ipa --release
-
-      - name: Push to releases
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "build/app/outputs/ipa/release/*"
           tag: v0.0.${{github.run_number}}
           token: ${{ secrets.TOKEN }}
