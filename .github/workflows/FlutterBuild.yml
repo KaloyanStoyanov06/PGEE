@@ -43,6 +43,13 @@ jobs:
         with:
           channel: "stable"
 
+      - name: "Create env file"
+        run: |
+          touch .env
+          echo ANDROID_API=${{ secrets.ANDROID_API }} >> .env
+          echo IOS_API=${{ secrets.IOS_API }} >> .env
+          cat .env
+
       - name: Pub Get Packages
         run: flutter pub get
 
@@ -81,9 +88,6 @@ jobs:
           echo ANDROID_API=${{ secrets.ANDROID_API }} >> .env
           echo IOS_API=${{ secrets.IOS_API }} >> .env
           cat .env
-
-      - name: Build APK
-        run: flutter build apk --release
 
       - name: Build iOS
         run: flutter build ios --no-codesign
