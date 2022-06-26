@@ -13,7 +13,7 @@ env:
   IOS_API: ${{ secrets.IOS_API }}
 
 jobs:
-  create:
+  createENVAPK:
     runs-on: ubuntu-latest
     steps:
       - name: "Create env file"
@@ -30,7 +30,7 @@ jobs:
   build_android:
     name: Build APK
     runs-on: ubuntu-latest
-    needs: [create]
+    needs: [createENVAPK]
     steps:
       - uses: actions/checkout@v2
       - name: Setup Java
@@ -67,10 +67,24 @@ jobs:
           tag: v0.0.${{github.run_number}}
           token: ${{ secrets.TOKEN }}
 
+  createENVIPA:
+    runs-on: macos-latest
+    steps:
+      - name: "Create env file"
+        run: |
+          touch .env
+          echo API_ENDPOINT=${{ secrets.ANDROID_API }} >> .env
+          echo API_KEY=${{ secrets.IOS_API }} >> .env
+          cat .env
+
+      - name: "Show files"
+        run: |
+          ls -la
+
   build_ios:
     name: Build IOS APP
     runs-on: macos-latest
-    needs: [create]
+    needs: [createENVIPA]
     steps:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
