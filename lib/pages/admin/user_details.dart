@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pgee/services/firebase_service.dart';
+import 'package:pgee/services/firebase_auth_service.dart';
 
 class UserDetails extends StatefulWidget {
   UserDetails({Key? key, required this.uid}) : super(key: key);
@@ -69,7 +69,7 @@ class _UserDetailsState extends State<UserDetails> {
         ElevatedButton(
           child: const Text("Да"),
           onPressed: () {
-            FirebaseService.deleteUser(context, widget.uid);
+            FirebaseAuthService.deleteUser(context, widget.uid);
             Navigator.pop(context);
             Navigator.pop(context);
           },
@@ -247,7 +247,7 @@ class _UserDetailsState extends State<UserDetails> {
                 if (selectedRole == "student" || selectedRole == "teacher")
                   const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () => FirebaseService.updateUser(
+                  onPressed: () => FirebaseAuthService.updateUser(
                       context,
                       emailController.text,
                       nameController.text,

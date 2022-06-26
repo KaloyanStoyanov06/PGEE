@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pgee/services/firebase_service.dart';
+import 'package:pgee/services/firebase_auth_service.dart';
 
 class ForgotPassword extends StatefulWidget {
   ForgotPassword({Key? key}) : super(key: key);
@@ -28,7 +28,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       actions: [
         ElevatedButton(
           onPressed: () {
-            FirebaseService.changePassword(context, email.text);
+            FirebaseAuthService.changePassword(context, email.text);
           },
           child: Text("Изпрати"),
         ),

@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pgee/pages/forgot_password.dart';
-import 'package:pgee/services/firebase_service.dart';
+import 'package:pgee/services/firebase_auth_service.dart';
 
 class SignInPage extends StatefulWidget {
   SignInPage({Key? key}) : super(key: key);
@@ -78,7 +78,7 @@ class _SignInPageState extends State<SignInPage> {
                 child: Text("Влез"),
               ),
               onPressed: () {
-                FirebaseService.signIn(context, email.text, password.text);
+                FirebaseAuthService.signIn(context, email.text, password.text);
               },
             ),
             TextButton(
