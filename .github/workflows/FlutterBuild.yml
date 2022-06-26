@@ -27,7 +27,7 @@ jobs:
         run: |
           ls -la
 
-  build_android:
+  build:
     name: Build
     runs-on: macos-latest
     needs: [create]
@@ -56,19 +56,12 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
-      - name: Build IPA
-        run: |
-          flutter build ios --no-codesign --release
-          cd build/ios/iphoneos
-          mkdir Payload
-          cd Payload
-          ln -s ../Runner.app
-          cd ..
-          zip -r app.ipa Payload
+      - name: Build iOS
+        run: flutter build ios --no-codesign
 
       - name: Push to releases
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/apk/release/*"
+          artifacts: "build/app/outputs/apk/release/*,build/ios/iphoneos/app.ipa"
           tag: v0.0.${{github.run_number}}
           token: ${{ secrets.TOKEN }}
