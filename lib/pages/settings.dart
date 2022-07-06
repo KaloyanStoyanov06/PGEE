@@ -34,8 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Тъмна тема",
-                    style: Theme.of(context).textTheme.headline6),
+                Text("???????", style: Theme.of(context).textTheme.headline6),
                 Switch.adaptive(
                   activeColor: Theme.of(context).colorScheme.primary,
                   value: darkTheme,
