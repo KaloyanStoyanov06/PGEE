@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pgee/firebase_options.dart';
 import 'package:pgee/pages/admin/users.dart';
 import 'package:pgee/pages/home.dart';
+import 'package:pgee/pages/programs/tommorow.dart';
 import 'package:pgee/pages/settings.dart';
 import 'package:pgee/pages/sign_in.dart';
 import 'package:pgee/pages/admin/sign_up.dart';
@@ -85,6 +86,7 @@ class MyApp extends StatelessWidget {
             '/sign-up': (context) => SignUpPage(),
             '/settings': (context) => SettingsPage(),
             '/mod-users': (context) => ModUsersPage(),
+            '/tommorow': (context) => TommorowPage()
           },
         );
       },

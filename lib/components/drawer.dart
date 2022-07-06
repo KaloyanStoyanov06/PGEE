@@ -20,23 +20,17 @@ class DrawerComponent extends StatelessWidget {
       elevation: 20,
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 100,
             child: DrawerHeader(
               child: Text(
                 "ПГЕЕ",
-                style: Theme.of(context).textTheme.headline2,
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          ListTile(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            leading: const Icon(Icons.today),
-            title: const Text("Днес"),
-            onTap: () {
-              Navigator.pop(context);
-            },
           ),
           ListTile(
             shape:
@@ -44,16 +38,7 @@ class DrawerComponent extends StatelessWidget {
             leading: const Icon(Icons.calendar_view_day_rounded),
             title: const Text("Утре"),
             onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            leading: const Icon(Icons.calendar_view_week_rounded),
-            title: const Text("Седмица"),
-            onTap: () {
-              Navigator.pop(context);
+              Navigator.pushNamed(context, '/tommorow');
             },
           ),
           ListTile(
@@ -68,7 +53,7 @@ class DrawerComponent extends StatelessWidget {
           ListTile(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            leading: const Icon(Icons.receipt_long),
+            leading: const Icon(Icons.school_rounded),
             title: const Text("Тестове"),
             onTap: () {
               Navigator.pop(context);

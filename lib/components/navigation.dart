@@ -10,10 +10,31 @@ class NavigationBarBottom extends StatefulWidget {
 class _NavigationBarBottomState extends State<NavigationBarBottom> {
   var index = 0;
 
-  var items = [
-    NavigationDestination(icon: Icon(Icons.today), label: "Днес"),
+  var items = const [
     NavigationDestination(
-        icon: Icon(Icons.calendar_view_week), label: "Седмична програма"),
+      icon: Icon(Icons.today),
+      label: "Днес",
+    ),
+    NavigationDestination(
+      icon: Icon(Icons.calendar_view_week),
+      label: "Седмична програма",
+    ),
+    NavigationDestination(
+      icon: Icon(Icons.today),
+      label: "Днес",
+    ),
+    NavigationDestination(
+      icon: Icon(Icons.calendar_view_week),
+      label: "Седмична програма",
+    ),
+    NavigationDestination(
+      icon: Icon(Icons.today),
+      label: "Днес",
+    ),
+    NavigationDestination(
+      icon: Icon(Icons.calendar_view_week),
+      label: "Седмична програма",
+    ),
   ];
 
   @override

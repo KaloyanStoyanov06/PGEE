@@ -8,6 +8,8 @@ class AdminFunctions extends StatelessWidget {
     return Column(
       children: [
         ListTile(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           leading: Icon(Icons.app_registration_rounded),
           title: Text("Регистриране на нов потребител"),
           onTap: () {
@@ -15,6 +17,8 @@ class AdminFunctions extends StatelessWidget {
           },
         ),
         ListTile(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           leading: Icon(Icons.edit_rounded),
           title: Text("Модифициране на потребител"),
           onTap: () {
