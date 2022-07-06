@@ -5,6 +5,7 @@ import 'package:pgee/services/firebase_auth_service.dart';
 class FirebaseProgramService {
   static Future<DocumentSnapshot<Map<String, dynamic>>> getToday(
       int weekday) async {
+    // change the int to string based on the day of the week
     var stringweek = "";
     switch (weekday) {
       case 1:
