@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pgee/components/drawer.dart';
 import 'package:pgee/components/navigation.dart';
@@ -38,6 +39,82 @@ class _HomePageState extends State<HomePage> {
         },
         destinations: items,
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            enableDrag: true,
+            builder: (context) {
+              return BottomSheet(
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  ),
+                ),
+                onClosing: () {},
+                builder: (context) {
+                  return Column(
+                    children: [
+                      ListTile(
+                        leading: Icon(Icons.note_add),
+                        title: Text("Домашна"),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      SizedBox(height: 10),
+                      ListTile(
+                        leading: Icon(Icons.school_rounded),
+                        title: Text("Тест"),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          );
+
+          // showDialog(
+          //   context: context,
+          //   builder: (context) {
+          //     return AlertDialog(
+          //       title: Text("Добавяне"),
+          //       content: SingleChildScrollView(
+          //         child: ListBody(
+          //           children: [
+          //             ListTile(
+          //               leading: Icon(Icons.note_add),
+          //               title: Text("Домашна"),
+          //               onTap: () {
+          //                 Navigator.pop(context);
+          //               },
+          //             ),
+          //             SizedBox(height: 10),
+          //             ListTile(
+          //               leading: Icon(Icons.school_rounded),
+          //               title: Text("Тест"),
+          //               onTap: () {
+          //                 Navigator.pop(context);
+          //               },
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //     );
+          //   },
+          // );
+        },
+        child: Icon(Icons.add),
+        isExtended: true,
+        elevation: 0,
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      ),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterDocked,
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
     );
   }
 }

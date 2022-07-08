@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pgee/components/role/admin_tile.dart';
 import 'package:pgee/components/role/student_tile.dart';
 import 'package:pgee/components/role/teacher_tile.dart';
@@ -56,13 +57,11 @@ class _ModUsersPageState extends State<ModUsersPage> {
                         child: CircularProgressIndicator.adaptive(),
                       ));
 
+              var temp = stream;
+
               setState(() {
                 stream = const Stream.empty();
-                stream = FirebaseFirestore.instance
-                    .collection('users')
-                    .orderBy('role')
-                    .orderBy('name')
-                    .snapshots();
+                stream = temp;
               });
               Navigator.pop(context);
               return Future.value();
@@ -100,12 +99,15 @@ class _ModUsersPageState extends State<ModUsersPage> {
                 }
 
                 return GestureDetector(
-                    onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => UserDetails(uid: document.id),
-                          ),
+                    onTap: () {
+                      HapticFeedback.selectionClick();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UserDetails(uid: document.id),
                         ),
+                      );
+                    },
                     child: Container(
                       // decoration: const BoxDecoration(
                       //   border: Border(

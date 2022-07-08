@@ -47,7 +47,7 @@ class _TommorowPageState extends State<TommorowPage> {
         ),
         body: Center(
             child: Text(
-          '',
+          'Успокой са малко.\nПочивай си',
           style: Theme.of(context).textTheme.headlineLarge,
         )),
       );

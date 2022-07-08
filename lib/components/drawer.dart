@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pgee/components/admin_functions.dart';
+import 'package:pgee/pages/settings.dart';
 import 'package:pgee/services/firebase_auth_service.dart';
 
 class DrawerComponent extends StatelessWidget {
@@ -38,6 +40,7 @@ class DrawerComponent extends StatelessWidget {
             leading: const Icon(Icons.calendar_view_day_rounded),
             title: const Text("Утре"),
             onTap: () {
+              HapticFeedback.heavyImpact();
               Navigator.pushNamed(context, '/tommorow');
             },
           ),
@@ -47,6 +50,7 @@ class DrawerComponent extends StatelessWidget {
             leading: const Icon(Icons.note),
             title: const Text("Домашни"),
             onTap: () {
+              HapticFeedback.heavyImpact();
               Navigator.pop(context);
             },
           ),
@@ -56,6 +60,7 @@ class DrawerComponent extends StatelessWidget {
             leading: const Icon(Icons.school_rounded),
             title: const Text("Тестове"),
             onTap: () {
+              HapticFeedback.heavyImpact();
               Navigator.pop(context);
             },
           ),
@@ -110,7 +115,8 @@ class DrawerComponent extends StatelessWidget {
             leading: Icon(Icons.settings),
             title: Text("Настройки"),
             onTap: () {
-              Navigator.pushNamed(context, '/settings');
+              HapticFeedback.heavyImpact();
+              Navigator.pushNamed(context, "/settings");
             },
           ),
           ListTile(
@@ -119,6 +125,7 @@ class DrawerComponent extends StatelessWidget {
             leading: Icon(Icons.logout),
             title: Text("Излез"),
             onTap: () {
+              HapticFeedback.heavyImpact();
               FirebaseAuth.instance.signOut();
               Navigator.pushReplacementNamed(context, '/sign-in');
             },

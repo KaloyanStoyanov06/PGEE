@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class NavigationBarBottom extends StatefulWidget {
   NavigationBarBottom({Key? key}) : super(key: key);
@@ -40,9 +41,11 @@ class _NavigationBarBottomState extends State<NavigationBarBottom> {
   @override
   Widget build(BuildContext context) {
     return NavigationBar(
+      animationDuration: Duration(milliseconds: 5000),
       selectedIndex: index,
-      onDestinationSelected: (index) => {
-        setState(() => {this.index = index})
+      onDestinationSelected: (index) async {
+        HapticFeedback.heavyImpact();
+        setState(() => {this.index = index});
       },
       destinations: items,
     );
