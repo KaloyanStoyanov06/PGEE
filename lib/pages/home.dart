@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pgee/components/drawer.dart';
 import 'package:pgee/components/navigation.dart';
+import 'package:pgee/components/quick_add_button.dart';
 import 'package:pgee/pages/programs/today.dart';
 import 'package:pgee/pages/programs/week.dart';
 import 'package:pgee/pages/sign_in.dart';
@@ -39,79 +40,7 @@ class _HomePageState extends State<HomePage> {
         },
         destinations: items,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            enableDrag: true,
-            builder: (context) {
-              return BottomSheet(
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(20),
-                  ),
-                ),
-                onClosing: () {},
-                builder: (context) {
-                  return Column(
-                    children: [
-                      ListTile(
-                        leading: Icon(Icons.note_add),
-                        title: Text("Домашна"),
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      SizedBox(height: 10),
-                      ListTile(
-                        leading: Icon(Icons.school_rounded),
-                        title: Text("Тест"),
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-          );
-
-          // showDialog(
-          //   context: context,
-          //   builder: (context) {
-          //     return AlertDialog(
-          //       title: Text("Добавяне"),
-          //       content: SingleChildScrollView(
-          //         child: ListBody(
-          //           children: [
-          //             ListTile(
-          //               leading: Icon(Icons.note_add),
-          //               title: Text("Домашна"),
-          //               onTap: () {
-          //                 Navigator.pop(context);
-          //               },
-          //             ),
-          //             SizedBox(height: 10),
-          //             ListTile(
-          //               leading: Icon(Icons.school_rounded),
-          //               title: Text("Тест"),
-          //               onTap: () {
-          //                 Navigator.pop(context);
-          //               },
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //     );
-          //   },
-          // );
-        },
-        child: Icon(Icons.add),
-        isExtended: true,
-        elevation: 0,
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
+      floatingActionButton: QuickAddButton(),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
