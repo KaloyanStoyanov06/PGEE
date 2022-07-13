@@ -60,7 +60,7 @@ class _TodayPageState extends State<TodayPage> {
         automaticallyImplyLeading: false,
       ),
       body: FutureBuilder(
-        future: FirebaseProgramService.getToday(today),
+        future: FirebaseProgramService.getDayClass(today),
         builder: ((context,
             AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

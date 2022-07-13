@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pgee/services/firebase_auth_service.dart';
 
 class FirebaseProgramService {
-  static Future<DocumentSnapshot<Map<String, dynamic>>> getToday(
+  static Future<DocumentSnapshot<Map<String, dynamic>>> getDayClass(
       int weekday) async {
     // change the int to string based on the day of the week
     var stringweek = "";
@@ -35,7 +35,11 @@ class FirebaseProgramService {
     var classDoc =
         FirebaseFirestore.instance.collection('classes').doc(className);
     var programDoc = await classDoc.collection('program').doc(stringweek);
-    print(programDoc.get().then((value) => value.get("1")));
+    print(programDoc
+        .get(
+          GetOptions(source: Source.cache),
+        )
+        .then((value) => value.get("1")));
     return programDoc.get();
   }
 

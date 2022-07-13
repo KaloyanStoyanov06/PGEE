@@ -58,7 +58,7 @@ class _TommorowPageState extends State<TommorowPage> {
         title: Text("Утре е ${dayOfWeek()}"),
       ),
       body: FutureBuilder(
-        future: FirebaseProgramService.getToday(tommorow),
+        future: FirebaseProgramService.getDayClass(tommorow),
         builder: ((context,
             AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
