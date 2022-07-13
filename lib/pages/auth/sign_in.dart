@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pgee/pages/forgot_password.dart';
+import 'package:pgee/pages/auth/forgot_password.dart';
 import 'package:pgee/services/firebase_auth_service.dart';
 
 class SignInPage extends StatefulWidget {
