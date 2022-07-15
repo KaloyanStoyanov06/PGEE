@@ -51,7 +51,7 @@ class DrawerComponent extends StatelessWidget {
             title: const Text("Домашни"),
             onTap: () {
               HapticFeedback.heavyImpact();
-              Navigator.pop(context);
+              Navigator.pushNamed(context, '/homework');
             },
           ),
           ListTile(

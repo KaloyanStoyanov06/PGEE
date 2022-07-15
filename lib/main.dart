@@ -13,6 +13,7 @@ import 'package:pgee/pages/settings.dart';
 import 'package:pgee/pages/auth/sign_in.dart';
 import 'package:pgee/pages/admin/sign_up.dart';
 import 'package:pgee/pages/auth/auth_redirect.dart';
+import 'package:pgee/pages/student/homework/homework.dart';
 import 'package:pgee/themes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -103,7 +104,8 @@ class _MyAppState extends State<MyApp> {
             '/sign-up': (context) => SignUpPage(),
             '/settings': (context) => SettingsPage(),
             '/mod-users': (context) => ModUsersPage(),
-            '/tommorow': (context) => TommorowPage()
+            '/tommorow': (context) => TommorowPage(),
+            '/homework': (context) => HomeworkPage(),
           },
           themeMode: _themeMode,
         );
