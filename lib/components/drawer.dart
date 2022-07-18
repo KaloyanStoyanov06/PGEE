@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pgee/components/admin_functions.dart';
+import 'package:pgee/pages/settings.dart';
 import 'package:pgee/services/firebase_auth_service.dart';
 
 class DrawerComponent extends StatelessWidget {
@@ -21,22 +23,19 @@ class DrawerComponent extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
+            height: MediaQuery.of(context).padding.top,
+          ),
+          const SizedBox(
             height: 100,
             child: DrawerHeader(
               child: Text(
                 "ПГЕЕ",
-                style: Theme.of(context).textTheme.headline2,
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          ListTile(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            leading: const Icon(Icons.today),
-            title: const Text("Днес"),
-            onTap: () {
-              Navigator.pop(context);
-            },
           ),
           ListTile(
             shape:
@@ -44,16 +43,8 @@ class DrawerComponent extends StatelessWidget {
             leading: const Icon(Icons.calendar_view_day_rounded),
             title: const Text("Утре"),
             onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            leading: const Icon(Icons.calendar_view_week_rounded),
-            title: const Text("Седмица"),
-            onTap: () {
-              Navigator.pop(context);
+              HapticFeedback.heavyImpact();
+              Navigator.pushNamed(context, '/tommorow');
             },
           ),
           ListTile(
@@ -62,15 +53,17 @@ class DrawerComponent extends StatelessWidget {
             leading: const Icon(Icons.note),
             title: const Text("Домашни"),
             onTap: () {
-              Navigator.pop(context);
+              HapticFeedback.heavyImpact();
+              Navigator.pushNamed(context, '/homework');
             },
           ),
           ListTile(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            leading: const Icon(Icons.receipt_long),
+            leading: const Icon(Icons.school_rounded),
             title: const Text("Тестове"),
             onTap: () {
+              HapticFeedback.heavyImpact();
               Navigator.pop(context);
             },
           ),
@@ -125,7 +118,8 @@ class DrawerComponent extends StatelessWidget {
             leading: Icon(Icons.settings),
             title: Text("Настройки"),
             onTap: () {
-              Navigator.pushNamed(context, '/settings');
+              HapticFeedback.heavyImpact();
+              Navigator.pushNamed(context, "/settings");
             },
           ),
           ListTile(
@@ -134,12 +128,13 @@ class DrawerComponent extends StatelessWidget {
             leading: Icon(Icons.logout),
             title: Text("Излез"),
             onTap: () {
+              HapticFeedback.heavyImpact();
               FirebaseAuth.instance.signOut();
               Navigator.pushReplacementNamed(context, '/sign-in');
             },
           ),
           SizedBox(
-            height: 20,
+            height: MediaQuery.of(context).padding.bottom,
           ),
         ],
       ),

@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pgee/components/drawer.dart';
 import 'package:pgee/components/navigation.dart';
+import 'package:pgee/components/quick_add_button.dart';
 import 'package:pgee/pages/programs/today.dart';
 import 'package:pgee/pages/programs/week.dart';
-import 'package:pgee/pages/sign_in.dart';
+import 'package:pgee/pages/auth/sign_in.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -38,6 +40,10 @@ class _HomePageState extends State<HomePage> {
         },
         destinations: items,
       ),
+      floatingActionButton: QuickAddButton(),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterDocked,
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
     );
   }
 }

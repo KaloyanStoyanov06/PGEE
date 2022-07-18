@@ -1,16 +1,23 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:pgee/firebase_options.dart';
 import 'package:pgee/pages/admin/users.dart';
 import 'package:pgee/pages/home.dart';
+import 'package:pgee/pages/programs/tommorow.dart';
 import 'package:pgee/pages/settings.dart';
-import 'package:pgee/pages/sign_in.dart';
+import 'package:pgee/pages/auth/sign_in.dart';
 import 'package:pgee/pages/admin/sign_up.dart';
-import 'package:pgee/pages/switch.dart';
+import 'package:pgee/pages/auth/auth_redirect.dart';
+import 'package:pgee/pages/student/homework/create_homework.dart';
+import 'package:pgee/pages/student/homework/homework.dart';
+import 'package:pgee/services/style_ui_service.dart';
 import 'package:pgee/themes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 CustomColors lightCustomColors = const CustomColors(danger: Color(0xFFE53935));
 CustomColors darkCustomColors = const CustomColors(danger: Color(0xFFEF9A9A));
@@ -21,23 +28,30 @@ Future<void> main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  ThemeMode _themeMode = ThemeMode.system;
+
+  @override
+  void initState() {
+    //TODO: Implement a theme switcher or look for one.
+
+    super.initState();
+  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      systemStatusBarContrastEnforced: false,
-      systemNavigationBarContrastEnforced: false,
-      statusBarColor: Colors.transparent,
-      systemNavigationBarColor: Colors.transparent,
-      systemNavigationBarDividerColor: Colors.transparent,
-    ));
+    StyleUiService.ApplyUI();
 
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) {
@@ -85,7 +99,11 @@ class MyApp extends StatelessWidget {
             '/sign-up': (context) => SignUpPage(),
             '/settings': (context) => SettingsPage(),
             '/mod-users': (context) => ModUsersPage(),
+            '/tommorow': (context) => TommorowPage(),
+            '/homework': (context) => HomeworkPage(),
+            '/homework/create': (context) => CreateHomeworkPage(),
           },
+          themeMode: _themeMode,
         );
       },
     );

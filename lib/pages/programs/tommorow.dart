@@ -6,19 +6,19 @@ import 'package:pgee/components/drawer.dart';
 import 'package:pgee/components/school_card.dart';
 import 'package:pgee/services/firebase_program_service.dart';
 
-class TodayPage extends StatefulWidget {
-  TodayPage({Key? key}) : super(key: key);
+class TommorowPage extends StatefulWidget {
+  TommorowPage({Key? key}) : super(key: key);
 
   @override
-  State<TodayPage> createState() => _TodayPageState();
+  State<TommorowPage> createState() => _TommorowPageState();
 }
 
-class _TodayPageState extends State<TodayPage> {
-  var today = DateTime.now().weekday;
+class _TommorowPageState extends State<TommorowPage> {
+  var tommorow = DateTime.now().weekday + 1;
 
   // Day of the week
   String dayOfWeek() {
-    switch (today) {
+    switch (tommorow) {
       case 1:
         return 'Понеделник';
       case 2:
@@ -40,15 +40,14 @@ class _TodayPageState extends State<TodayPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (today == 6 || today == 7) {
+    if (tommorow == 6 || tommorow == 7) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text("Днес е Почивен ден"),
-          automaticallyImplyLeading: false,
+          title: const Text("Утре е Почивен ден"),
         ),
         body: Center(
             child: Text(
-          'Почивен ден',
+          'Успокой са малко.\nПочивай си',
           style: Theme.of(context).textTheme.headlineLarge,
         )),
       );
@@ -56,11 +55,10 @@ class _TodayPageState extends State<TodayPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Днес е ${dayOfWeek()}"),
-        automaticallyImplyLeading: false,
+        title: Text("Утре е ${dayOfWeek()}"),
       ),
       body: FutureBuilder(
-        future: FirebaseProgramService.getDayClass(today),
+        future: FirebaseProgramService.getDayClass(tommorow),
         builder: ((context,
             AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
