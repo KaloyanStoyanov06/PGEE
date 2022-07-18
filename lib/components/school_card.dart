@@ -25,9 +25,11 @@ class SchoolCard extends StatelessWidget {
       {Key? key,
       required this.subjectName,
       required this.teacherName,
-      required this.startingTime})
+      required this.startingTime,
+      required this.subjectNumber})
       : super(key: key);
 
+  final int subjectNumber;
   final String subjectName;
   final String teacherName;
   final TimeOfDay startingTime;
@@ -36,6 +38,7 @@ class SchoolCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      leading: Text(subjectNumber.toString()),
       title: Text(subjectName),
       subtitle: Text(teacherName),
       enableFeedback: true,

@@ -22,6 +22,9 @@ class DrawerComponent extends StatelessWidget {
       elevation: 20,
       child: Column(
         children: [
+          SizedBox(
+            height: MediaQuery.of(context).padding.top,
+          ),
           const SizedBox(
             height: 100,
             child: DrawerHeader(
@@ -131,7 +134,7 @@ class DrawerComponent extends StatelessWidget {
             },
           ),
           SizedBox(
-            height: 20,
+            height: MediaQuery.of(context).padding.bottom,
           ),
         ],
       ),

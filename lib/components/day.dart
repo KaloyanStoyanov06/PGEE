@@ -28,6 +28,7 @@ class _DayState extends State<Day> {
 
         return Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             title: Text(widget.title),
             centerTitle: true,
           ),
@@ -35,6 +36,7 @@ class _DayState extends State<Day> {
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               return SchoolCard(
+                subjectNumber: index + 1,
                 subjectName: data.get((index + 1).toString()),
                 teacherName: "Професор",
                 startingTime: const TimeOfDay(

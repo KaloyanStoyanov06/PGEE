@@ -116,7 +116,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   label: const Text("Изпрати ни емайл за предложения"),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: MediaQuery.of(context).padding.bottom,
                 ),
               ],
             ),

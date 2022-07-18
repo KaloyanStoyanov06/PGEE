@@ -81,6 +81,7 @@ class _TodayPageState extends State<TodayPage> {
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               return SchoolCard(
+                subjectNumber: index + 1,
                 subjectName: data.get((index + 1).toString()),
                 teacherName: "Професор",
                 startingTime: const TimeOfDay(

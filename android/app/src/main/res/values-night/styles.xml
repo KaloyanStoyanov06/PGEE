@@ -15,7 +15,5 @@
     <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
-    <style name="DialogTheme" parent="@style/Base.Theme.AppCompat.Light.Dialog">
-     <item name="android:windowTranslucentStatus">true</item>
-</style>
+
 </resources>
