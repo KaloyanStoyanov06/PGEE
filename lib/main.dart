@@ -13,7 +13,9 @@ import 'package:pgee/pages/settings.dart';
 import 'package:pgee/pages/auth/sign_in.dart';
 import 'package:pgee/pages/admin/sign_up.dart';
 import 'package:pgee/pages/auth/auth_redirect.dart';
+import 'package:pgee/pages/student/homework/create_homework.dart';
 import 'package:pgee/pages/student/homework/homework.dart';
+import 'package:pgee/services/style_ui_service.dart';
 import 'package:pgee/themes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -49,14 +51,7 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      systemStatusBarContrastEnforced: false,
-      systemNavigationBarContrastEnforced: false,
-      statusBarColor: Colors.transparent,
-      systemNavigationBarColor: Colors.transparent,
-      systemNavigationBarDividerColor: Colors.transparent,
-    ));
+    StyleUiService.ApplyUI();
 
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) {
@@ -106,6 +101,7 @@ class _MyAppState extends State<MyApp> {
             '/mod-users': (context) => ModUsersPage(),
             '/tommorow': (context) => TommorowPage(),
             '/homework': (context) => HomeworkPage(),
+            '/homework/create': (context) => CreateHomeworkPage(),
           },
           themeMode: _themeMode,
         );

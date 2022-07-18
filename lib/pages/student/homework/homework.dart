@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pgee/components/student/homework_tile.dart';
 import 'package:pgee/services/firebase_homework_service.dart';
+import 'package:pgee/services/style_ui_service.dart';
 
 class HomeworkPage extends StatefulWidget {
   HomeworkPage({Key? key}) : super(key: key);
@@ -15,7 +18,7 @@ class _HomeworkPageState extends State<HomeworkPage> {
   Stream<QuerySnapshot<Map<String, dynamic>>> _homeworks =
       FirebaseHomeworkService.GetHomeworks();
 
-  var icon = Icon(Icons.arrow_downward);
+  var filterIcon = Icon(Icons.arrow_downward);
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +27,26 @@ class _HomeworkPageState extends State<HomeworkPage> {
         title: Text('Домашни'),
         actions: [
           IconButton(
+            tooltip: "Добави домашна",
             onPressed: () {
+              HapticFeedback.lightImpact();
+              Navigator.pushNamed(context, '/homework/create');
+            },
+            icon: Icon(Icons.add),
+          ),
+          IconButton(
+            tooltip: "Филтрирай по най-далечна и най-близка домашна",
+            onPressed: () {
+              HapticFeedback.heavyImpact();
               setState(() {
                 _homeworks = FirebaseHomeworkService.GetHomeworks(
-                    descending: icon.icon == Icons.arrow_downward);
-                icon = icon.icon == Icons.arrow_downward
+                    descending: filterIcon.icon == Icons.arrow_downward);
+                filterIcon = filterIcon.icon == Icons.arrow_downward
                     ? Icon(Icons.arrow_upward)
                     : Icon(Icons.arrow_downward);
               });
             },
-            icon: icon,
+            icon: filterIcon,
           )
         ],
       ),
